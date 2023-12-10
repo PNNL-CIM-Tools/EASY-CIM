@@ -4,9 +4,12 @@ from dataclasses import dataclass, field
 @dataclass
 class ReducedDataProfile():
     def __post_init__(self):
-        self.ACLineSegment = [
+        self.IdentifiedObject = [
             'mRID',
-            'name',
+            'name'
+        ]
+
+        self.ACLineSegment = [
             'length',
             'r',
             'x',
@@ -23,25 +26,50 @@ class ReducedDataProfile():
         ]
 
         self.CableInfo = [
-            "constructionKind",
-            "diameterOverCore",
-            "diameterOverInsulation",
-            "diameterOverJacket",
-            "diameterOverScreen",
-            "isStrandFill",
-            "nominalTemperature",
-            "outerJacketKind",
-            "relativePermittivity",
-            "sheathAsNeutral",
-            "shieldMaterial"
+            'constructionKind',
+            'diameterOverCore',
+            'diameterOverInsulation',
+            'diameterOverJacket',
+            'diameterOverScreen',
+            'isStrandFill',
+            'nominalTemperature',
+            'outerJacketKind',
+            'relativePermittivity',
+            'sheathAsNeutral',
+            'shieldMaterial'
         ]
 
         self.ConcentricNeutralCableInfo = [
-            "diameterOverNeutral",
-            "neutralStrandCount",
-            "neutralStrandGmr",
-            "neutralStrandRadius",
-            "neutralStrandRDC20"
+            'diameterOverNeutral',
+            'neutralStrandCount',
+            'neutralStrandGmr',
+            'neutralStrandRadius',
+            'neutralStrandRDC20'
+        ]
+
+        self.EnergyConsumer = [
+            'p',
+            'q',
+            'customerCount',
+            'grounded',
+            'phaseConnection'
+        ]
+
+        self.EnergyConsumerPhase = [
+            'p',
+            'q',
+            'phase'
+        ]
+
+        self.House = [
+            'coolingSetpoint',
+            'coolingSystem',
+            'floorArea',
+            'heatingSetpoint',
+            'heatingSystem',
+            'hvacPowerFactor',
+            'numberOfStories',
+            'EnergyConsumer'
         ]
 
         
@@ -78,8 +106,8 @@ class ReducedDataProfile():
         ]
 
         self.TapeShieldCableInfo = [
-            "tapeLap",
-            "tapeThickness"
+            'tapeLap',
+            'tapeThickness'
         ]
         
         self.WireInfo = [
@@ -99,4 +127,17 @@ class ReducedDataProfile():
             'rDC20',
             'sizeDescription',
             'strandCount'
+        ]
+
+        self.WirePosition = [
+            'sequenceNumber',
+            'xCoord',
+            'yCoord'
+        ]
+
+        self.WireSpacingInfo = [
+            'isCable',
+            'phaseWireCount',
+            'phaseWireSpacing',
+            'usage'
         ]

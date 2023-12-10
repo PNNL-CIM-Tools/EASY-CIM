@@ -9,7 +9,7 @@ from easycim.reduced_data_profile import ReducedDataProfile
 
 _log = logging.getLogger(__name__)
 
-def get_impedance_per_line(network:GraphModel) -> dict:
+def get_impedance_data_per_line(network:GraphModel) -> dict:
     """Returns a dictionary of ACLineSegment object parameters with impedance
     of each line, phases, and impedance per length. The impedance data is 
     sorted by each line
@@ -43,20 +43,16 @@ def get_impedance_per_line(network:GraphModel) -> dict:
             per_length_impedance = line.PerLengthImpedance
             line_data[line.mRID]['PerLengthImpedance'] = {}
             if per_length_impedance is not None:
-                print('perlength')
-                
                 # check if positive/zero sequence impedance data
                 if per_length_impedance.__class__.__name__ == 'PerLengthSequenceImpedance':
                     data = get_data(per_length_impedance, data_profile.PerLengthSequenceImpedance)
                     line_data[line.mRID]['PerLengthImpedance'] = data
                 # check if phase impedance data
                 elif per_length_impedance.__class__.__name__ == 'PerLengthPhaseImpedance':
-                    print('phase')
                     data = get_data(per_length_impedance, data_profile.PerLengthPhaseImpedance)
                     line_data[line.mRID]['PerLengthImpedance'] = data
                     line_data[line.mRID]['PerLengthImpedance']['PhaseImpedanceData'] = []
                     for phase_impedance_data in per_length_impedance.PhaseImpedanceData:
-                        print('phase data')
                         data = get_data(phase_impedance_data, data_profile.PhaseImpedanceData)
                         line_data[line.mRID]['PerLengthImpedance']['PhaseImpedanceData'].append(data)
     return line_data

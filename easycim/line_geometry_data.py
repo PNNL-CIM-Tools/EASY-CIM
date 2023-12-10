@@ -1,10 +1,6 @@
 from __future__ import annotations
-import math
 import importlib
 import logging
-import json
-import enum
-import os
 
 from cimgraph import GraphModel
 from easycim.data_iterator import get_data
@@ -14,7 +10,7 @@ cim = ReducedDataProfile
 _log = logging.getLogger(__name__)
 
 
-def phase_geometry_iterator(wire_info) -> list[dict]:
+def phase_geometry_iterator(wire_info:cim.WireInfo) -> list[dict]:
     """Iterator method to extract phase data for a WireInfo object
 
     :param wire_info: An instance of WireInfo or any of its child classes
@@ -34,7 +30,7 @@ def phase_geometry_iterator(wire_info) -> list[dict]:
     return all_phases
 
 
-def get_line_per_geometry(network:GraphModel) -> dict:
+def get_line_data_per_geometry(network:GraphModel) -> dict:
     """This method returns a dictionary of overhead line and underground cable
     geometry data with ACLineSegmentPhase objects sorted by the type of conductor
     used by that line conductor.
@@ -74,7 +70,7 @@ def get_line_per_geometry(network:GraphModel) -> dict:
             geo_data['OverheadWireInfo'][wire_info.mRID]['ACLineSegmentPhases'] = phase_data
     # Loop through all tape shield cables
     if cim.TapeShieldCableInfo in network.graph:
-        for wire_info in network.graph[cim.CableInfo].values():
+        for wire_info in network.graph[cim.TapeShieldCableInfo].values():
             wire_data = get_data(wire_info, data_profile.WireInfo)
             wire_data = get_data(wire_info, data_profile.CableInfo, wire_data)
             wire_data = get_data(wire_info, data_profile.TapeShieldCableInfo, wire_data)
@@ -83,27 +79,17 @@ def get_line_per_geometry(network:GraphModel) -> dict:
             geo_data['TapeShieldCableInfo'][wire_info.mRID]['ACLineSegmentPhases'] = phase_data
     # Loop through all tape shield cables
     if cim.ConcentricNeutralCableInfo in network.graph:
-        for wire_info in network.graph[cim.CableInfo].values():
+        for wire_info in network.graph[cim.ConcentricNeutralCableInfo].values():
             wire_data = get_data(wire_info, data_profile.WireInfo)
             wire_data = get_data(wire_info, data_profile.CableInfo, wire_data)
             wire_data = get_data(wire_info, data_profile.ConcentricNeutralCableInfo, wire_data)
             geo_data['ConcentricNeutralCableInfo'][wire_info.mRID] = wire_data
             phase_data = phase_geometry_iterator(wire_info)
             geo_data['ConcentricNeutralCableInfo'][wire_info.mRID]['ACLineSegmentPhases'] = phase_data
-
-
-
-            
-        
-                
-
-
-
-
     return geo_data
 
 
-def get_geometry_per_line(network):
+def get_geometry_data_per_line(network):
     """This method returns a dictionary of ACLineSegment objects and the
     conductor geometry 
 
@@ -130,9 +116,7 @@ def get_geometry_per_line(network):
     if cim.ACLineSegment in network.graph:
 
         for line in network.graph[cim.ACLineSegment].values():
-            line_data[line.mRID] = {}
-            line_data[line.mRID]['mRID'] = line.mRID
-            line_data[line.mRID]['name'] = line.name
+            line_data[line.mRID] = get_data(line, data_profile.IdentifiedObject)
             line_data[line.mRID]['length'] = line.length
             # phase data
             line_data[line.mRID]['ACLineSegmentPhases'] = []
@@ -141,21 +125,39 @@ def get_geometry_per_line(network):
                 line_data[line.mRID]['ACLineSegmentPhases'].append(phase_data)
                 # wire geometry data
                 wire_info = phase.WireInfo
-                phase_data['WireInfo'] = {}
                 if wire_info is not None:
-                    wire_data = get_data(wire_info, data_profile.WireInfo)
-                    if wire_info.__class__.__name__ in ['OverheadWireInfo', 'WireInfo']:
-                        phase_data['WireInfo'] = wire_data
-                    elif wire_info.__class__.__name__ == 'CableInfo':
-                        wire_data = get_data(wire_info, data_profile.CableInfo, wire_data)
-                        phase_data['WireInfo'] = wire_data
-                    elif wire_info.__class__.__name__ == 'TapeShieldCableInfo':
-                        wire_data = get_data(wire_info, data_profile.CableInfo, wire_data)
-                        wire_data = get_data(wire_info, data_profile.TapeShieldCableInfo, wire_data)
-                        phase_data['WireInfo'] = wire_data
-                    elif wire_info.__class__.__name__ == 'CableInfo':
-                        wire_data = get_data(wire_info, data_profile.CableInfo, wire_data)
-                        wire_data = get_data(wire_info, data_profile.ConcentricNeutralCableInfo, wire_data)
-                        phase_data['WireInfo'] = wire_data
+                    wire_data = get_data(wire_info, data_profile.IdentifiedObject)
+                    wire_data['__class__'] = wire_info.__class__.__name__
+                    phase_data['WireInfo'] = wire_data
+                    # wire_data = get_data(wire_info, data_profile.WireInfo)
+                    # if wire_info.__class__.__name__ in ['OverheadWireInfo', 'WireInfo']:
+                    #     phase_data['WireInfo'] = wire_data
+                    # elif wire_info.__class__.__name__ == 'CableInfo':
+                    #     wire_data = get_data(wire_info, data_profile.CableInfo, wire_data)
+                    #     phase_data['WireInfo'] = wire_data
+                    # elif wire_info.__class__.__name__ == 'TapeShieldCableInfo':
+                    #     wire_data = get_data(wire_info, data_profile.CableInfo, wire_data)
+                    #     wire_data = get_data(wire_info, data_profile.TapeShieldCableInfo, wire_data)
+                    #     phase_data['WireInfo'] = wire_data
+                    # elif wire_info.__class__.__name__ == 'CableInfo':
+                    #     wire_data = get_data(wire_info, data_profile.CableInfo, wire_data)
+                    #     wire_data = get_data(wire_info, data_profile.ConcentricNeutralCableInfo, wire_data)
+                    #     phase_data['WireInfo'] = wire_data
+                else:
+                    phase_data['WireInfo'] = {}
                 line_data[line.mRID]['ACLineSegmentPhases'].append(phase_data)
+            # wire spacing data
+            wire_spacing = line.WireSpacingInfo
+            if wire_spacing is not None:
+                spacing_data = get_data(wire_spacing, data_profile.WireSpacingInfo)
+                spacing_data['WirePosition'] = []
+                for wire_position in wire_spacing.WirePositions:
+                    position_data = get_data(wire_position, data_profile.WirePosition)
+                    spacing_data['WirePosition'].append(position_data)
+                line_data[line.mRID]['WireSpacingInfo'] = spacing_data
+            else:
+                line_data[line.mRID]['WireSpacingInfo'] = {}
+
+
+                
     return line_data
