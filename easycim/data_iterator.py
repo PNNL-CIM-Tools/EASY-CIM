@@ -34,7 +34,7 @@ def get_data(obj:object, attribute_list:list[str], data:dict = {}) -> dict:
                     value = 'None'
                 data[attribute] = value
             else:
-                _log.warning(f'{attribute} not in CIM profile')
+                _log.info(f'{attribute} not in CIM profile')
     except:
         _log.warning(f'unable to parse {obj}')
     return data

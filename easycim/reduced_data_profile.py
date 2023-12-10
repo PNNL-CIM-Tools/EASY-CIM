@@ -138,11 +138,66 @@ class ReducedDataProfile():
             'maxP'
         ]
 
+        self.PowerTransformer = [
+            'vectorGroup'
+        ]
+
+        self.PowerTransformerEnd = [
+            "connectionKind",
+            "phaseAngleClock",
+            "ratedS",
+            "ratedU",
+            'r',
+            'x',
+            'b',
+            'g'
+            'r0',
+            'x0',
+            'b0',
+            'g0'
+        ]
+
         self.TapeShieldCableInfo = [
             'tapeLap',
             'tapeThickness'
         ]
+
+        self.Terminal = [
+            'sequenceNumber'
+        ]
+
+
+        self.TransformerEnd = [
+            "endNumber",
+            "grounded",
+            "rground",
+            "xground",
+            'bmagSat',
+            'magBaseU',
+            'magSatFlux'
+        ]
+
+        self.TransformerMeshImpedance = [
+            'r',
+            'x',
+            'r0',
+            'x0'
+        ]
         
+        self.TransformerCoreAdmittance = [
+            'b',
+            'g',
+            'b0',
+            'g0'
+        ]
+
+        self.TransformerStarImpedance = [
+            'r',
+            'x',
+            'r0',
+            'x0'
+        ]
+
         self.WireInfo = [
             'name',
             'coreRadius',
