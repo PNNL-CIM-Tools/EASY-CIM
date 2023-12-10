@@ -67,6 +67,20 @@ class ReducedDataProfile():
             'phase'
         ]
 
+        self.EnergySource = [
+            "r",
+            "r0",
+            "x",
+            "x0",
+            "nominalVoltage",
+            "voltageMagnitude",
+            "voltageAngle"
+        ]
+
+        self.EnergySourcePhase = [
+            'phase'
+        ]
+
         self.House = [
             'coolingSetpoint',
             'coolingSystem',
@@ -74,8 +88,7 @@ class ReducedDataProfile():
             'heatingSetpoint',
             'heatingSystem',
             'hvacPowerFactor',
-            'numberOfStories',
-            'EnergyConsumer'
+            'numberOfStories'
         ]
 
         
