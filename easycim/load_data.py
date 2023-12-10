@@ -9,13 +9,13 @@ cim = ReducedDataProfile
 
 _log = logging.getLogger(__name__)
 
-def load_iterator(energy_consumer:cim.EnergyConsumer) -> list[dict]:
+def load_iterator(energy_consumer:cim.EnergyConsumer) -> dict:
     """Iterator method to extract phase data for an EnergyConsumer object
 
-    :param wire_info: An instance of EnergyConsumer or any of its child classes
+    :param energy_consumer: An instance of EnergyConsumer or any of its child classes
     :type energy_consumer: cim.EnergyConsumer
-    :return: a list of EnergyConsumer dictionaries
-    :rtype: list[dict]
+    :return: an EnergyConsumer dictionaries
+    :rtype: dict
     """    
     data_profile = ReducedDataProfile()
     load_data = get_data(energy_consumer, data_profile.EnergyConsumer)

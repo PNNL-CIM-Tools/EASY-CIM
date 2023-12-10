@@ -1,3 +1,4 @@
-from line_impedance_data import get_impedance_data_per_line
-from line_geometry_data import get_geometry_data_per_line, get_line_data_per_geometry
-from load_data import get_load_data
+from easycim.inverter_data import get_inverter_data
+from easycim.line_impedance_data import get_impedance_data_per_line
+from easycim.line_geometry_data import get_geometry_data_per_line, get_line_data_per_geometry
+from easycim.load_data import get_load_data

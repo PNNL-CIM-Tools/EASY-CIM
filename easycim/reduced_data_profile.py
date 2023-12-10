@@ -25,6 +25,12 @@ class ReducedDataProfile():
             'sequenceNumber'
         ]
 
+        self.BatteryUnit =[
+            'batteryState',
+            'ratedE',
+            'storedE'
+        ]
+
         self.CableInfo = [
             'constructionKind',
             'diameterOverCore',
@@ -99,10 +105,24 @@ class ReducedDataProfile():
         ]
 
         self.PowerElectronicsConnection = [
-            'mRID',
-            'name',
             'p',
-            'q'
+            'q',
+            'minQ',
+            'maxQ',
+            'ratedS',
+            'ratedU',
+            'maxIFault'
+        ]
+
+        self.PowerElectronicsConnectionPhase = [
+            'p',
+            'q',
+            'phase'
+        ]
+
+        self.PowerElectronicsUnit =[
+            'minP',
+            'maxP'
         ]
 
         self.TapeShieldCableInfo = [
