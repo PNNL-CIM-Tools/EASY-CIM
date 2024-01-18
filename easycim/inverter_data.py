@@ -9,32 +9,6 @@ cim = ReducedDataProfile
 
 _log = logging.getLogger(__name__)
 
-def inverter_iterator(inverter:cim.PowerElectronicsConnection) -> dict:
-    """Iterator method to extract data for an inverter object
-
-    :param inverter: An instance of PowerElectronicsConnection 
-    :type inverter: cim.PowerElectronicsConnection
-    :return: a list of PowerElectronicsConnection dictionaries
-    :rtype: dict
-    """    
-    data_profile = ReducedDataProfile()
-    inverter_data = get_data(inverter, data_profile.PowerElectronicsConnection)
-    # get phase data
-    inverter_data['phases'] = []
-    for phase in inverter.PowerElectronicsConnectionPhases:
-        phase_data = get_data(phase, data_profile.PowerElectronicsConnectionPhase)
-        inverter_data['phases'].append(phase_data)
-    # get unit data
-    inverter_data['PowerElectronicsUnit'] = []
-    for unit in inverter.PowerElectronicsUnit:
-        unit_data = get_data(unit, data_profile.PowerElectronicsUnit)
-        if unit.__class__.__name__ == 'BatteryUnit':
-            unit_data = get_data(unit, data_profile.BatteryUnit, unit_data)
-        unit_data['__class__'] = unit.__class__.__name__
-    inverter_data['PowerElectronicsUnit'].append(unit_data)
-        
-    return inverter_data
-
 def get_inverter_data(network:GraphModel) -> dict:
     """This method returns a dictionary of single-phase and three-phase inverter
     data sorted by the overall inverter object.
@@ -63,6 +37,23 @@ def get_inverter_data(network:GraphModel) -> dict:
     inverter_data = {}
     if cim.PowerElectronicsConnection in network.graph:
         for inverter in network.graph[cim.PowerElectronicsConnection].values():
-            inverter_data[inverter.mRID] = inverter_iterator(inverter)
+            # inverter_data[inverter.mRID] = inverter_iterator(inverter)
+
+            inverter_data[inverter.mRID] = get_data(inverter, data_profile.PowerElectronicsConnection)
+            # get phase data
+            inverter_data[inverter.mRID]['phases'] = []
+            for phase in inverter.PowerElectronicsConnectionPhases:
+                phase_data = get_data(phase, data_profile.PowerElectronicsConnectionPhase)
+                inverter_data[inverter.mRID]['phases'].append(phase_data)
+
+            # get unit data
+            inverter_data[inverter.mRID]['PowerElectronicsUnit'] = []
+            for unit in inverter.PowerElectronicsUnit:
+                unit_data = get_data(unit, data_profile.PowerElectronicsUnit)
+                if unit.__class__.__name__ == 'BatteryUnit':
+                    unit_data = get_data(unit, data_profile.BatteryUnit, unit_data)
+                unit_data['__class__'] = unit.__class__.__name__
+                inverter_data[inverter.mRID]['PowerElectronicsUnit'].append(unit_data)
+                
     return inverter_data
             

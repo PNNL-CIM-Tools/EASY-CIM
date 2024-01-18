@@ -9,7 +9,7 @@ cim = ReducedDataProfile
 
 _log = logging.getLogger(__name__)
 
-def get_three_phase_transformer_data(network:GraphModel) -> dict:
+def get_split_phase_transformer_data(network:GraphModel) -> dict:
     """This method returns a dictionary of three-phase transformer impedance
     data sorted by the way the impedance was specified (star or mesh).
 
@@ -24,25 +24,28 @@ def get_three_phase_transformer_data(network:GraphModel) -> dict:
     cim = importlib.import_module(f'cimgraph.data_profile.{cim_profile}')
     # Run network queries
     network.get_all_edges(cim.PowerTransformer)
-    network.get_all_edges(cim.PowerTransformerEnd)
     network.get_all_edges(cim.TransformerTank)
-    network.get_all_edges(cim.TransformerCoreAdmittance)
-    network.get_all_edges(cim.TransformerMeshImpedance)
-    network.get_all_edges(cim.TransformerStarImpedance)
+    network.get_all_edges(cim.Asset)
+    network.get_all_edges(cim.TransformerTankEnd)
+    network.get_all_edges(cim.TransformerTankInfo)
+    network.get_all_edges(cim.TransformerEndInfo)
+    network.get_all_edges(cim.NoLoadTest)
+    network.get_all_edges(cim.ShortCircuitTest)
     network.get_all_edges(cim.Terminal)
     network.get_all_edges(cim.ConnectivityNode)
 
     transformer_data = {}
     if cim.PowerTransformer in network.graph:
         for transformer in network.graph[cim.PowerTransformer].values():
-            three_phase = True
-            if transformer.TransformerTanks:
-                three_phase = False
-            # TODO: Write better logic
-
-            if three_phase:
-                xfmr_data = get_data(transformer, data_profile.PowerTransformer)
-                xfmr_data['PowerTransformerEnd'] = []
+            split_phase = False
+            if len(transformer.TransformerTanks) == 1:
+                tank = transformer.TransformerTanks[0]
+                if len(tank.TransformerTankEnd) == 3:
+                    split_phase = True
+            
+            if split_phase:
+                tank_data = get_data(tank, data_profile.PowerTransformer)
+                tank_data['PowerTransformerEnd'] = []
                 for end in transformer.PowerTransformerEnd:
                     end_data = {}
                     end_data['Terminal'] = get_data(end.Terminal, data_profile.Terminal)
@@ -71,8 +74,8 @@ def get_three_phase_transformer_data(network:GraphModel) -> dict:
                         end_data['CoreAdmittance'] = data
                     else:
                         end_data['CoreAdmittance'] = {}
-                    xfmr_data['PowerTransformerEnd'].append(end_data)
+                    tank_data['PowerTransformerEnd'].append(end_data)
 
-                transformer_data[transformer.mRID] = xfmr_data
+                transformer_data[transformer.mRID] = tank_data
 
     return transformer_data

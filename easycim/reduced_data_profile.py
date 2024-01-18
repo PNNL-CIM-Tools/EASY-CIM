@@ -91,6 +91,14 @@ class ReducedDataProfile():
             'numberOfStories'
         ]
 
+        self.NoLoadTest = [
+            "energisedEndVoltage",
+            "excitingCurrent",
+            "excitingCurrentZero",
+            "loss",
+            "lossZero"
+        ]
+
         
         self.PhaseImpedanceData = [
             'row',
@@ -157,6 +165,17 @@ class ReducedDataProfile():
             'g0'
         ]
 
+        self.ShortCircuitTest = [
+            "energisedEndStep",
+            "groundedEndStep",
+            "leakageImpedance",
+            "leakageImpedanceZero",
+            "loss",
+            "lossZero"
+        ]
+
+        
+
         self.TapeShieldCableInfo = [
             'tapeLap',
             'tapeThickness'
@@ -175,6 +194,18 @@ class ReducedDataProfile():
             'bmagSat',
             'magBaseU',
             'magSatFlux'
+        ]
+
+        self.TransformerEndInfo = [
+            "connectionKind",
+            "emergencyS",
+            "endNumber",
+            "insulationU",
+            "phaseAngleClock",
+            "r",
+            "ratedS",
+            "ratedU",
+            "shortTermS"
         ]
 
         self.TransformerMeshImpedance = [
@@ -197,6 +228,10 @@ class ReducedDataProfile():
             'r0',
             'x0'
         ]
+
+        self.TransformerTank = []
+
+
 
         self.WireInfo = [
             'name',
