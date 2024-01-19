@@ -20,7 +20,6 @@ class ReducedDataProfile():
         ]
 
         self.ACLineSegmentPhase = [
-            'name',
             'phase',
             'sequenceNumber'
         ]
@@ -110,6 +109,7 @@ class ReducedDataProfile():
         ]
 
         self.PerLengthPhaseImpedance = [
+            'name',
             'conductorCount'
         ]
 
