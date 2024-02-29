@@ -122,7 +122,7 @@ def get_geometry_data_per_line(network):
             line_data[line.mRID]['ACLineSegmentPhases'] = []
             for phase in line.ACLineSegmentPhases:
                 phase_data = get_data(phase, data_profile.ACLineSegmentPhase)
-                line_data[line.mRID]['ACLineSegmentPhases'].append(phase_data)
+                # line_data[line.mRID]['ACLineSegmentPhases'].append(phase_data)
                 # wire geometry data
                 wire_info = phase.WireInfo
                 if wire_info is not None:

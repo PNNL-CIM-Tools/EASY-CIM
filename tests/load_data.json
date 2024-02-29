@@ -1,0 +1,206 @@
+{
+    "6964DE20-CC96-473D-BB0F-73CD8ACAED2D": {
+        "p": "120000",
+        "q": "90000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "120000",
+                "q": "90000",
+                "phase": "C"
+            }
+        ]
+    },
+    "928BCF3C-276A-4E74-A4AE-C3C79D624F5F": {
+        "p": "160000",
+        "q": "110000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "160000",
+                "q": "110000",
+                "phase": "A"
+            }
+        ]
+    },
+    "819CA18E-54AA-42D5-B069-F1AC831D926E": {
+        "p": "1155000",
+        "q": "660000",
+        "customerCount": "1",
+        "grounded": "false",
+        "phaseConnection": "D",
+        "phases": []
+    },
+    "EF316EA5-74D3-4209-89EA-BF8FAAC2BAF6": {
+        "p": "128000",
+        "q": "86000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "128000",
+                "q": "86000",
+                "phase": "A"
+            }
+        ]
+    },
+    "F3D41D9D-9606-4277-A336-69D7048301AF": {
+        "p": "170000",
+        "q": "125000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "170000",
+                "q": "125000",
+                "phase": "B"
+            }
+        ]
+    },
+    "4FE57842-43D5-4EBB-8FF1-795E6FE1C507": {
+        "p": "66000",
+        "q": "38000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "66000",
+                "q": "38000",
+                "phase": "B"
+            }
+        ]
+    },
+    "7E0E4F76-E0FD-4BB5-BB58-BC5B05A5A59A": {
+        "p": "117000",
+        "q": "68000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "117000",
+                "q": "68000",
+                "phase": "C"
+            }
+        ]
+    },
+    "46479235-D5D9-4CE8-9F7C-C78426691797": {
+        "p": "290000",
+        "q": "212000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "290000",
+                "q": "212000",
+                "phase": "C"
+            }
+        ]
+    },
+    "8A0CF414-3240-47D1-AB8F-998165BA092E": {
+        "p": "170000",
+        "q": "151000",
+        "customerCount": "1",
+        "grounded": "false",
+        "phaseConnection": "D",
+        "phases": [
+            {
+                "p": "170000",
+                "q": "151000",
+                "phase": "C"
+            }
+        ]
+    },
+    "EBD2AE36-04A5-4EA9-836F-12F9D3CCB777": {
+        "p": "485000",
+        "q": "190000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "485000",
+                "q": "190000",
+                "phase": "A"
+            }
+        ]
+    },
+    "F841F05A-E047-491F-BF7B-C71283C653D6": {
+        "p": "68000",
+        "q": "60000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "68000",
+                "q": "60000",
+                "phase": "B"
+            }
+        ]
+    },
+    "C9CB60C2-46E0-4FDC-B2A5-73318344E4C9": {
+        "p": "230000",
+        "q": "132000",
+        "customerCount": "1",
+        "grounded": "false",
+        "phaseConnection": "D",
+        "phases": [
+            {
+                "p": "230000",
+                "q": "132000",
+                "phase": "B"
+            }
+        ]
+    },
+    "D186291A-2487-45AE-83C7-651C7C71D41E": {
+        "p": "170000",
+        "q": "80000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "170000",
+                "q": "80000",
+                "phase": "C"
+            }
+        ]
+    },
+    "958C1DE5-2FA9-4051-8827-8681C4E7AFF6": {
+        "p": "120000",
+        "q": "90000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "120000",
+                "q": "90000",
+                "phase": "B"
+            }
+        ]
+    },
+    "F20F52DF-B0B1-4615-B9D3-AC669CE18454": {
+        "p": "17000",
+        "q": "10000",
+        "customerCount": "1",
+        "grounded": "true",
+        "phaseConnection": "Y",
+        "phases": [
+            {
+                "p": "17000",
+                "q": "10000",
+                "phase": "A"
+            }
+        ]
+    }
+}

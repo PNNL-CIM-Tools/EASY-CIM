@@ -1,0 +1,303 @@
+{
+    "4774208A-B9AB-4051-8BC9-4F7C8EA6552A": {
+        "length": "406.2984",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "B",
+                "sequenceNumber": "2"
+            },
+            {
+                "phase": "N",
+                "sequenceNumber": "4"
+            },
+            {
+                "phase": "C",
+                "sequenceNumber": "3"
+            },
+            {
+                "phase": "A",
+                "sequenceNumber": "1"
+            }
+        ],
+        "PerLengthImpedance": {}
+    },
+    "603106B5-1DC7-40B1-A264-98774F6FD16D": {
+        "length": "304.8",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "C",
+                "sequenceNumber": "3"
+            },
+            {
+                "phase": "B",
+                "sequenceNumber": "2"
+            },
+            {
+                "phase": "N",
+                "sequenceNumber": "4"
+            },
+            {
+                "phase": "A",
+                "sequenceNumber": "1"
+            }
+        ],
+        "PerLengthImpedance": {}
+    },
+    "6EBB2188-CBE1-4FEC-9406-83DE8E61F9CB": {
+        "length": "152.4",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "C",
+                "sequenceNumber": "3"
+            },
+            {
+                "phase": "B",
+                "sequenceNumber": "2"
+            },
+            {
+                "phase": "A",
+                "sequenceNumber": "1"
+            }
+        ],
+        "PerLengthImpedance": {}
+    },
+    "6DEF3353-8276-402F-AC8E-3DEF4A396FFE": {
+        "length": "609.6",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "A",
+                "sequenceNumber": "1"
+            },
+            {
+                "phase": "N",
+                "sequenceNumber": "4"
+            },
+            {
+                "phase": "B",
+                "sequenceNumber": "2"
+            },
+            {
+                "phase": "C",
+                "sequenceNumber": "3"
+            }
+        ],
+        "PerLengthImpedance": {}
+    },
+    "173879C4-4FDB-4521-A60D-5B102B3781B2": {
+        "length": "91.410739",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "C",
+                "sequenceNumber": "1"
+            },
+            {
+                "phase": "B",
+                "sequenceNumber": "2"
+            }
+        ],
+        "PerLengthImpedance": {
+            "name": "645646_PUZ",
+            "conductorCount": "2",
+            "PhaseImpedanceData": [
+                {
+                    "row": "2",
+                    "column": "2",
+                    "r": "0.00082605292",
+                    "x": "0.00083705121",
+                    "b": "6.5590561E-10",
+                    "g": "None"
+                },
+                {
+                    "row": "1",
+                    "column": "1",
+                    "r": "0.00082257323",
+                    "x": "0.00084314067",
+                    "b": "6.5590561E-10",
+                    "g": "None"
+                },
+                {
+                    "row": "2",
+                    "column": "1",
+                    "r": "0.00012837561",
+                    "x": "0.00028527222",
+                    "b": "-1.405512E-10",
+                    "g": "None"
+                }
+            ]
+        }
+    },
+    "8C536493-14B8-41D0-8EE4-CAE4DFF33839": {
+        "length": "91.44",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "N",
+                "sequenceNumber": "2"
+            },
+            {
+                "phase": "C",
+                "sequenceNumber": "1"
+            }
+        ],
+        "PerLengthImpedance": {}
+    },
+    "A98417B1-4A7F-484F-97C8-9B91F29A26F1": {
+        "length": "152.4",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "N",
+                "sequenceNumber": "3"
+            },
+            {
+                "phase": "C",
+                "sequenceNumber": "1"
+            },
+            {
+                "phase": "B",
+                "sequenceNumber": "2"
+            }
+        ],
+        "PerLengthImpedance": {}
+    },
+    "08848DC6-BB11-4647-9C21-475BAD66A8B8": {
+        "length": "91.44",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "A",
+                "sequenceNumber": "1"
+            },
+            {
+                "phase": "N",
+                "sequenceNumber": "3"
+            },
+            {
+                "phase": "C",
+                "sequenceNumber": "2"
+            }
+        ],
+        "PerLengthImpedance": {}
+    },
+    "E062E187-F149-4555-8E27-2EE0C9D75274": {
+        "length": "243.84",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "N",
+                "sequenceNumber": "2"
+            },
+            {
+                "phase": "A",
+                "sequenceNumber": "1"
+            }
+        ],
+        "PerLengthImpedance": {}
+    },
+    "8A62F620-7C58-4662-AE5C-F41F5E3F0022": {
+        "length": "203.3016",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "A",
+                "sequenceNumber": "1"
+            },
+            {
+                "phase": "C",
+                "sequenceNumber": "3"
+            },
+            {
+                "phase": "N",
+                "sequenceNumber": "4"
+            },
+            {
+                "phase": "B",
+                "sequenceNumber": "2"
+            }
+        ],
+        "PerLengthImpedance": {}
+    },
+    "67A2574B-8146-464D-B93C-B9FCBCE913BC": {
+        "length": "152.4",
+        "r": "None",
+        "x": "None",
+        "bch": "None",
+        "r0": "None",
+        "x0": "None",
+        "b0ch": "None",
+        "ACLineSegmentPhases": [
+            {
+                "phase": "B",
+                "sequenceNumber": "2"
+            },
+            {
+                "phase": "C",
+                "sequenceNumber": "3"
+            },
+            {
+                "phase": "A",
+                "sequenceNumber": "1"
+            },
+            {
+                "phase": "N",
+                "sequenceNumber": "4"
+            }
+        ],
+        "PerLengthImpedance": {}
+    }
+}
