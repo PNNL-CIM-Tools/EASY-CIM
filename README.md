@@ -4,7 +4,7 @@ EASY-CIM is a python library for extracting data
 
 
 
-## Attribution and Disclaimer: 
+## Attribution and Disclaimer:
 
 This software was created under a project sponsored by the U.S. Department of Energy, an agency of the United States Government.  Neither the United States Government nor the United States Department of Energy, nor Battelle, nor any of their employees, nor any jurisdiction or organization that has cooperated in the development of these materials, makes any warranty, express or implied, or assumes any legal liability or responsibility for the accuracy, completeness, or usefulness or any information, apparatus, product, software, or process disclosed, or represents that its use would not infringe privately owned rights.
 
