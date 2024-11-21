@@ -1,5 +1,24 @@
 # EASY-CIM: Extracting Attributes in a Simple DictionarY of CIM data
 
+![GitHub Tag](https://img.shields.io/github/v/tag/PNNL-CIM-Tools/EASY-CIM)
+![GitHub Release Date](https://img.shields.io/github/release-date-pre/PNNL-CIM-Tools/EASY-CIM)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/PNNL-CIM-Tools/CIM-Graph/dev-pre-release.yml)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PNNL-CIM-Tools/EASY-CIM/total?label=git%20downloads)
+<!-- ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/PNNL-CIM-Tools/EASY-CIM) -->
+
+
+![PyPI - Version](https://img.shields.io/pypi/v/easycim)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/easycim?label=pypi%20downloads)
+![PyPI - Format](https://img.shields.io/pypi/format/easycim)
+
+
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/PNNL-CIM-Tools/EASY-CIM)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/PNNL-CIM-Tools/EASY-CIM)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/PNNL-CIM-Tools/EASY-CIM)
+
+![GitHub License](https://img.shields.io/github/license/PNNL-CIM-Tools/EASY-CIM)
+<!-- ![https://doi.org/10.11578/dc.20240507.3](https://img.shields.io/badge/doi-10.11578/dc.20240507.3-blue) -->
+
 EASY-CIM is a python library for extracting CIM data into a reduced profile with linked mRIDs listed as dictionaries of key-value pairs.
 
 The syntax is equivalent to that of CIMantic Graphs calls with object references replaced with dictionary keys.
