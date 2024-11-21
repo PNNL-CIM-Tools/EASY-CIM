@@ -1,7 +1,28 @@
 # EASY-CIM: Extracting Attributes in a Simple DictionarY of CIM data
 
-EASY-CIM is a python library for extracting data
+EASY-CIM is a python library for extracting CIM data into a reduced profile with linked mRIDs listed as dictionaries of key-value pairs.
 
+The syntax is equivalent to that of CIMantic Graphs calls with object references replaced with dictionary keys.
+
+CIM-Graph Call: 
+
+```python
+phase = network.graph[cim.ACLineSegment][UUID("rdf-id-string")].ACLineSegmentPhases[0].phase
+print(phase)
+```
+```plaintext
+cim.SinglePhaseKind.A
+```
+
+EASY-CIM Call:
+
+```python
+phase = line_data["rdf-id-string"]["ACLineSegmentPhases"][0]["phase"]
+print(phase)
+```
+```plaintext
+"A"
+```
 
 
 ## Attribution and Disclaimer:
@@ -11,14 +32,18 @@ This software was created under a project sponsored by the U.S. Department of En
 Reference herein to any specific commercial product, process, or service by trade name, trademark, manufacturer, or otherwise does not necessarily constitute or imply its endorsement, recommendation, or favoring by the United States Government or any agency thereof, or Battelle Memorial Institute. The views and opinions of authors expressed herein do not necessarily state or reflect those of the United States Government or any agency thereof.
 
 
+<div align="center">
+
 PACIFIC NORTHWEST NATIONAL LABORATORY
 
-_operated by_
+*operated by*
 
-  BATTELLE
+BATTELLE
 
-  _for the_
+*for the*
 
 UNITED STATES DEPARTMENT OF ENERGY
 
-_under Contract DE-AC05-76RL01830_
+*under Contract DE-AC05-76RL01830*
+
+</div>
