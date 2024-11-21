@@ -4,7 +4,7 @@ EASY-CIM is a python library for extracting CIM data into a reduced profile with
 
 The syntax is equivalent to that of CIMantic Graphs calls with object references replaced with dictionary keys.
 
-CIM-Graph Call: 
+CIM-Graph Call:
 
 ```python
 phase = network.graph[cim.ACLineSegment][UUID("rdf-id-string")].ACLineSegmentPhases[0].phase
