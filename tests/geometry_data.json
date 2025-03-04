@@ -1,0 +1,421 @@
+{
+    "OverheadWireInfo": {
+        "9E92FA6A-53EE-47FD-8FC5-EC66E55D7EF2": {
+            "name": "acsr_556_5",
+            "coreRadius": "0",
+            "coreStrandCount": "0",
+            "gmr": "0.00947928",
+            "insulated": "false",
+            "insulationMaterial": "None",
+            "insulationThickness": "None",
+            "material": "None",
+            "rAC25": "0.00011788654",
+            "rAC50": "0.00011788654",
+            "rAC75": "0.00011788654",
+            "radius": "0.0117729",
+            "ratedCurrent": "730",
+            "rDC20": "0.00011557504",
+            "sizeDescription": "WireData_acsr_556_5",
+            "strandCount": "0",
+            "ACLineSegmentPhases": [
+                {
+                    "phase": "B",
+                    "sequenceNumber": "2",
+                    "ACLineSegment": {
+                        "mRID": "6DEF3353-8276-402F-AC8E-3DEF4A396FFE",
+                        "name": "650632"
+                    }
+                },
+                {
+                    "phase": "C",
+                    "sequenceNumber": "3",
+                    "ACLineSegment": {
+                        "mRID": "6DEF3353-8276-402F-AC8E-3DEF4A396FFE",
+                        "name": "650632"
+                    }
+                },
+                {
+                    "phase": "B",
+                    "sequenceNumber": "2",
+                    "ACLineSegment": {
+                        "mRID": "8A62F620-7C58-4662-AE5C-F41F5E3F0022",
+                        "name": "632670"
+                    }
+                },
+                {
+                    "phase": "C",
+                    "sequenceNumber": "3",
+                    "ACLineSegment": {
+                        "mRID": "8A62F620-7C58-4662-AE5C-F41F5E3F0022",
+                        "name": "632670"
+                    }
+                },
+                {
+                    "phase": "A",
+                    "sequenceNumber": "1",
+                    "ACLineSegment": {
+                        "mRID": "6DEF3353-8276-402F-AC8E-3DEF4A396FFE",
+                        "name": "650632"
+                    }
+                },
+                {
+                    "phase": "A",
+                    "sequenceNumber": "1",
+                    "ACLineSegment": {
+                        "mRID": "603106B5-1DC7-40B1-A264-98774F6FD16D",
+                        "name": "671680"
+                    }
+                },
+                {
+                    "phase": "C",
+                    "sequenceNumber": "3",
+                    "ACLineSegment": {
+                        "mRID": "603106B5-1DC7-40B1-A264-98774F6FD16D",
+                        "name": "671680"
+                    }
+                },
+                {
+                    "phase": "B",
+                    "sequenceNumber": "2",
+                    "ACLineSegment": {
+                        "mRID": "603106B5-1DC7-40B1-A264-98774F6FD16D",
+                        "name": "671680"
+                    }
+                },
+                {
+                    "phase": "C",
+                    "sequenceNumber": "3",
+                    "ACLineSegment": {
+                        "mRID": "4774208A-B9AB-4051-8BC9-4F7C8EA6552A",
+                        "name": "670671"
+                    }
+                },
+                {
+                    "phase": "A",
+                    "sequenceNumber": "1",
+                    "ACLineSegment": {
+                        "mRID": "4774208A-B9AB-4051-8BC9-4F7C8EA6552A",
+                        "name": "670671"
+                    }
+                },
+                {
+                    "phase": "A",
+                    "sequenceNumber": "1",
+                    "ACLineSegment": {
+                        "mRID": "8A62F620-7C58-4662-AE5C-F41F5E3F0022",
+                        "name": "632670"
+                    }
+                },
+                {
+                    "phase": "B",
+                    "sequenceNumber": "2",
+                    "ACLineSegment": {
+                        "mRID": "4774208A-B9AB-4051-8BC9-4F7C8EA6552A",
+                        "name": "670671"
+                    }
+                }
+            ]
+        },
+        "2BA0CC9E-2AC9-4F3C-9E2B-E6DC3A016896": {
+            "name": "acsr_4/0",
+            "coreRadius": "0",
+            "coreStrandCount": "0",
+            "gmr": "0.002481072",
+            "insulated": "false",
+            "insulationMaterial": "None",
+            "insulationThickness": "None",
+            "material": "None",
+            "rAC25": "0.00037520878",
+            "rAC50": "0.00037520878",
+            "rAC75": "0.00037520878",
+            "radius": "0.0071501",
+            "ratedCurrent": "340",
+            "rDC20": "0.00036785175",
+            "sizeDescription": "WireData_acsr_4/0",
+            "strandCount": "0",
+            "ACLineSegmentPhases": [
+                {
+                    "phase": "N",
+                    "sequenceNumber": "4",
+                    "ACLineSegment": {
+                        "mRID": "8A62F620-7C58-4662-AE5C-F41F5E3F0022",
+                        "name": "632670"
+                    }
+                },
+                {
+                    "phase": "B",
+                    "sequenceNumber": "2",
+                    "ACLineSegment": {
+                        "mRID": "67A2574B-8146-464D-B93C-B9FCBCE913BC",
+                        "name": "632633"
+                    }
+                },
+                {
+                    "phase": "N",
+                    "sequenceNumber": "4",
+                    "ACLineSegment": {
+                        "mRID": "6DEF3353-8276-402F-AC8E-3DEF4A396FFE",
+                        "name": "650632"
+                    }
+                },
+                {
+                    "phase": "C",
+                    "sequenceNumber": "3",
+                    "ACLineSegment": {
+                        "mRID": "67A2574B-8146-464D-B93C-B9FCBCE913BC",
+                        "name": "632633"
+                    }
+                },
+                {
+                    "phase": "A",
+                    "sequenceNumber": "1",
+                    "ACLineSegment": {
+                        "mRID": "67A2574B-8146-464D-B93C-B9FCBCE913BC",
+                        "name": "632633"
+                    }
+                },
+                {
+                    "phase": "N",
+                    "sequenceNumber": "4",
+                    "ACLineSegment": {
+                        "mRID": "4774208A-B9AB-4051-8BC9-4F7C8EA6552A",
+                        "name": "670671"
+                    }
+                },
+                {
+                    "phase": "N",
+                    "sequenceNumber": "4",
+                    "ACLineSegment": {
+                        "mRID": "603106B5-1DC7-40B1-A264-98774F6FD16D",
+                        "name": "671680"
+                    }
+                },
+                {
+                    "phase": "N",
+                    "sequenceNumber": "4",
+                    "ACLineSegment": {
+                        "mRID": "67A2574B-8146-464D-B93C-B9FCBCE913BC",
+                        "name": "632633"
+                    }
+                }
+            ]
+        },
+        "94AF073D-06AF-412D-A64C-D7642DE14F69": {
+            "name": "acsr_1/0",
+            "coreRadius": "0",
+            "coreStrandCount": "0",
+            "gmr": "0.001359408",
+            "insulated": "false",
+            "insulationMaterial": "None",
+            "insulationThickness": "None",
+            "material": "None",
+            "rAC25": "0.00070985445",
+            "rAC50": "0.00070985445",
+            "rAC75": "0.00070985445",
+            "radius": "0.0050546",
+            "ratedCurrent": "230",
+            "rDC20": "0.00069593573",
+            "sizeDescription": "WireData_acsr_1/0",
+            "strandCount": "0",
+            "ACLineSegmentPhases": [
+                {
+                    "phase": "C",
+                    "sequenceNumber": "2",
+                    "ACLineSegment": {
+                        "mRID": "08848DC6-BB11-4647-9C21-475BAD66A8B8",
+                        "name": "671684"
+                    }
+                },
+                {
+                    "phase": "A",
+                    "sequenceNumber": "1",
+                    "ACLineSegment": {
+                        "mRID": "08848DC6-BB11-4647-9C21-475BAD66A8B8",
+                        "name": "671684"
+                    }
+                },
+                {
+                    "phase": "B",
+                    "sequenceNumber": "2",
+                    "ACLineSegment": {
+                        "mRID": "A98417B1-4A7F-484F-97C8-9B91F29A26F1",
+                        "name": "632645"
+                    }
+                },
+                {
+                    "phase": "N",
+                    "sequenceNumber": "3",
+                    "ACLineSegment": {
+                        "mRID": "08848DC6-BB11-4647-9C21-475BAD66A8B8",
+                        "name": "671684"
+                    }
+                },
+                {
+                    "phase": "N",
+                    "sequenceNumber": "2",
+                    "ACLineSegment": {
+                        "mRID": "8C536493-14B8-41D0-8EE4-CAE4DFF33839",
+                        "name": "684611"
+                    }
+                },
+                {
+                    "phase": "C",
+                    "sequenceNumber": "1",
+                    "ACLineSegment": {
+                        "mRID": "A98417B1-4A7F-484F-97C8-9B91F29A26F1",
+                        "name": "632645"
+                    }
+                },
+                {
+                    "phase": "C",
+                    "sequenceNumber": "1",
+                    "ACLineSegment": {
+                        "mRID": "8C536493-14B8-41D0-8EE4-CAE4DFF33839",
+                        "name": "684611"
+                    }
+                },
+                {
+                    "phase": "N",
+                    "sequenceNumber": "3",
+                    "ACLineSegment": {
+                        "mRID": "A98417B1-4A7F-484F-97C8-9B91F29A26F1",
+                        "name": "632645"
+                    }
+                }
+            ]
+        },
+        "C2736AC3-CC05-4AFC-A9BF-F6B482B22F92": {
+            "name": "cu_1/0",
+            "coreRadius": "0",
+            "coreStrandCount": "0",
+            "gmr": "0.003392424",
+            "insulated": "false",
+            "insulationMaterial": "None",
+            "insulationThickness": "None",
+            "material": "None",
+            "rAC25": "0.00037717231",
+            "rAC50": "0.00037717231",
+            "rAC75": "0.00037717231",
+            "radius": "0.0046736",
+            "ratedCurrent": "100",
+            "rDC20": "0.00036977678",
+            "sizeDescription": "WireData_cu_1/0",
+            "strandCount": "0",
+            "ACLineSegmentPhases": [
+                {
+                    "phase": "N",
+                    "sequenceNumber": "2",
+                    "ACLineSegment": {
+                        "mRID": "E062E187-F149-4555-8E27-2EE0C9D75274",
+                        "name": "684652"
+                    }
+                }
+            ]
+        }
+    },
+    "TapeShieldCableInfo": {
+        "9EE93180-5EA6-42FC-8EC5-35B82D4F4D8C": {
+            "name": "ts_1/0",
+            "coreRadius": "0",
+            "coreStrandCount": "0",
+            "gmr": "0.00338328",
+            "insulated": "true",
+            "insulationMaterial": "crosslinkedPolyethylene",
+            "insulationThickness": "0.005588",
+            "material": "None",
+            "rAC25": "0.00060273006",
+            "rAC50": "0.00060273006",
+            "rAC75": "0.00060273006",
+            "radius": "0.0046736",
+            "ratedCurrent": "165",
+            "rDC20": "0.00059091182",
+            "sizeDescription": "TSData_ts_1/0",
+            "strandCount": "0",
+            "constructionKind": "None",
+            "diameterOverCore": "0.009652",
+            "diameterOverInsulation": "0.020828",
+            "diameterOverJacket": "0.026924",
+            "diameterOverScreen": "0.022098",
+            "isStrandFill": "false",
+            "nominalTemperature": "90",
+            "outerJacketKind": "None",
+            "relativePermittivity": "2.3",
+            "sheathAsNeutral": "true",
+            "shieldMaterial": "None",
+            "tapeLap": "20",
+            "tapeThickness": "0.000127",
+            "ACLineSegmentPhases": [
+                {
+                    "phase": "A",
+                    "sequenceNumber": "1",
+                    "ACLineSegment": {
+                        "mRID": "E062E187-F149-4555-8E27-2EE0C9D75274",
+                        "name": "684652"
+                    }
+                }
+            ]
+        }
+    },
+    "ConcentricNeutralCableInfo": {
+        "5CF2A8A3-B30E-4907-8F88-5B3079AEE87E": {
+            "name": "cn_250",
+            "coreRadius": "0",
+            "coreStrandCount": "0",
+            "gmr": "0.00521208",
+            "insulated": "true",
+            "insulationMaterial": "crosslinkedPolyethylene",
+            "insulationThickness": "0.005588",
+            "material": "None",
+            "rAC25": "0.00025476219",
+            "rAC50": "0.00025476219",
+            "rAC75": "0.00025476219",
+            "radius": "0.0072009",
+            "ratedCurrent": "260",
+            "rDC20": "0.00024976685",
+            "sizeDescription": "CNData_cn_250",
+            "strandCount": "0",
+            "constructionKind": "None",
+            "diameterOverCore": "0.015748",
+            "diameterOverInsulation": "0.026924",
+            "diameterOverJacket": "0.032766",
+            "diameterOverScreen": "0.02950972",
+            "isStrandFill": "false",
+            "nominalTemperature": "90",
+            "outerJacketKind": "None",
+            "relativePermittivity": "2.3",
+            "sheathAsNeutral": "false",
+            "shieldMaterial": "None",
+            "diameterOverNeutral": "0.032766",
+            "neutralStrandCount": "13",
+            "neutralStrandGmr": "0.000633984",
+            "neutralStrandRadius": "0.00081407",
+            "neutralStrandRDC20": "0.0092411566",
+            "ACLineSegmentPhases": [
+                {
+                    "phase": "C",
+                    "sequenceNumber": "3",
+                    "ACLineSegment": {
+                        "mRID": "6EBB2188-CBE1-4FEC-9406-83DE8E61F9CB",
+                        "name": "692675"
+                    }
+                },
+                {
+                    "phase": "B",
+                    "sequenceNumber": "2",
+                    "ACLineSegment": {
+                        "mRID": "6EBB2188-CBE1-4FEC-9406-83DE8E61F9CB",
+                        "name": "692675"
+                    }
+                },
+                {
+                    "phase": "A",
+                    "sequenceNumber": "1",
+                    "ACLineSegment": {
+                        "mRID": "6EBB2188-CBE1-4FEC-9406-83DE8E61F9CB",
+                        "name": "692675"
+                    }
+                }
+            ]
+        }
+    }
+}
