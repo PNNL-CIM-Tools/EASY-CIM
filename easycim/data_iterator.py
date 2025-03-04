@@ -1,12 +1,12 @@
 from __future__ import annotations
-import logging
+
 import enum
-
-
+import logging
 
 _log = logging.getLogger(__name__)
 
-def get_data(obj:object, attribute_list:list[str], data:dict = {}) -> dict:
+
+def get_data(obj: object, attribute_list: list[str], data: dict = {}) -> dict:
     """Data iterator to extract all values from a cimgraph object instance.
     By default, creates a new dictionary with attributes defined in reduced
     data profile. For classes with deep inheritance trees, the data dictionary
@@ -20,7 +20,7 @@ def get_data(obj:object, attribute_list:list[str], data:dict = {}) -> dict:
     :type data: dict, optional
     :return: Dictionary of CIM object data
     :rtype: dict
-    """    
+    """
     cim_class = obj.__class__
     if not data:
         data = {}
@@ -38,4 +38,3 @@ def get_data(obj:object, attribute_list:list[str], data:dict = {}) -> dict:
     except:
         _log.warning(f'unable to parse {obj}')
     return data
-
