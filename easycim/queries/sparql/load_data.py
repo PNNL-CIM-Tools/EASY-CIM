@@ -6,29 +6,29 @@ from typing import Dict, List, Optional
 import cimgraph.data_profile.cimhub_2023 as cim
 
 
-def get_all_load_data_sparql(container:cim.EquipmentContainer) -> str: 
+def get_all_load_data_sparql(container: cim.EquipmentContainer) -> str:
     """ Generates SPARQL query string for a given catalog of objects and feeder id
     Args:
         feeder_mrid (str | Feeder object): The mRID of the feeder or feeder object
-        typed_catalog (dict[type, dict[str, object]]): The typed catalog of CIM objects organized by 
+        typed_catalog (dict[type, dict[str, object]]): The typed catalog of CIM objects organized by
             class type and object mRID
     Returns:
         query_message: query string that can be used in blazegraph connection or STOMP client
     """
-    
+
     query_message = """
         PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX cim:  <http://iec.ch/TC57/CIM100#>
         SELECT ?mRID ?name ?BaseVoltage ?Location ?p ?q ?customerCount ?grounded ?phaseConnection ?LoadResponse
-            (group_concat(distinct ?Terminal; separator=";") as ?Terminals) 
-            (group_concat(distinct ?Measurement; separator=";") as ?Measurements) 
+            (group_concat(distinct ?Terminal; separator=";") as ?Terminals)
+            (group_concat(distinct ?Measurement; separator=";") as ?Measurements)
             (group_concat(distinct ?EnergyConsumerPhase; separator=";") as ?EnergyConsumerPhase)
-        WHERE {          
+        WHERE {
           ?eq r:type cim:EnergyConsumer.
-          VALUES ?container {"%s"}"""%container.mRID
-    
+          VALUES ?container {"%s"}""" % container.mRID
+
     # add all attributes
-    query_message += """               } 
+    query_message += """               }
         ?eq cim:Equipment.EquipmentContainer ?fdr.
         ?fdr cim:IdentifiedObject.mRID ?container.
 
@@ -53,7 +53,7 @@ def get_all_load_data_sparql(container:cim.EquipmentContainer) -> str:
         OPTIONAL {?eq cim:EnergyConsumer.q ?q.}
         OPTIONAL {?eq cim:EnergyConsumer.customerCount ?customerCount.}
         OPTIONAL {?eq cim:EnergyConsumer.grounded ?grounded.}
-        
+
         OPTIONAL {?eq cim:EnergyConsumer.phaseConnection ?phs.
                   bind(strafter(str(?phs),"PhaseShuntConnectionKind.") as ?phaseConnection) }
         OPTIONAL {?eq cim:EnergyComsumer.LoadResponse ?lr.

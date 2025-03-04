@@ -7,13 +7,14 @@ from cimgraph import GraphModel
 
 from easycim.data_iterator import get_data
 from easycim.reduced_data_profile import ReducedDataProfile
-
 from easycim.templates import line_impedance_template
 
 _log = logging.getLogger(__name__)
 
-def get_impedance_data_per_line(network:GraphModel, use_cached:bool=True, dedicated_query=False) -> dict:
 
+def get_impedance_data_per_line(network: GraphModel,
+                                use_cached: bool = True,
+                                dedicated_query=False) -> dict:
     """Returns a dictionary of ACLineSegment object parameters with impedance
     of each line, phases, and impedance per length. The impedance data is
     sorted by each line
@@ -27,7 +28,6 @@ def get_impedance_data_per_line(network:GraphModel, use_cached:bool=True, dedica
     cim_profile = network.connection.connection_params.cim_profile
     cim = importlib.import_module(f'cimgraph.data_profile.{cim_profile}')
 
-    
     try:
         # Use cached result in CIM-Graph network, if available
         if use_cached:
@@ -37,7 +37,7 @@ def get_impedance_data_per_line(network:GraphModel, use_cached:bool=True, dedica
     except:
         # Otherwise create new line data dictionary
         if dedicated_query:
-            
+
             pass
         else:
             # Use CIM-Graph to build data from graph
