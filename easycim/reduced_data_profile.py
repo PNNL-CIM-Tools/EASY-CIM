@@ -11,10 +11,7 @@ class ReducedDataProfile():
 
         self.ACLineSegment = ['length', 'r', 'x', 'bch', 'r0', 'x0', 'b0ch']
 
-        self.ACLineSegmentPhase = [
-            'phase',
-            'sequenceNumber'
-        ]
+        self.ACLineSegmentPhase = ['phase', 'sequenceNumber']
 
         self.BatteryUnit = ['batteryState', 'ratedE', 'storedE']
 
@@ -55,11 +52,7 @@ class ReducedDataProfile():
 
         self.PhaseImpedanceData = ['row', 'column', 'r', 'x', 'b', 'g']
 
-        self.PerLengthPhaseImpedance = [
-            'name',
-            'conductorCount'
-        ]
-
+        self.PerLengthPhaseImpedance = ['name', 'conductorCount']
 
         self.PerLengthSequenceImpedance = [
             'name', 'r', 'x', 'bch', 'gch'
