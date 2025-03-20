@@ -3,12 +3,13 @@ from __future__ import annotations
 import importlib
 import logging
 
-from cimgraph import GraphModel
+from cimgraph.models import GraphModel
 
 from easycim.inverter_data import get_inverter_data
 from easycim.line_geometry_data import (get_geometry_data_per_line,
                                         get_line_data_per_geometry)
 from easycim.line_impedance_data import get_impedance_data_per_line
+from easycim.capacitor_data import get_capacitor_data
 from easycim.load_data import get_load_data
 from easycim.reduced_data_profile import ReducedDataProfile
 from easycim.swing_bus_data import get_swing_bus_data
@@ -50,6 +51,8 @@ def get_all_data(network: GraphModel, class_name: str) -> dict:
         data = {}
     elif class_name == 'ConnectivityNode':
         data = {}
+    elif class_name == 'LinearShuntCompensator':
+        data = get_capacitor_data(network)
     else:
         _log.warning(
             f'Class {class_name} not supported in EASY-CIM. Try running network.get_all_edges(cim.{class_name}) instead.'

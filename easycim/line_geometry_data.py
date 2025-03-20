@@ -3,7 +3,7 @@ from __future__ import annotations
 import importlib
 import logging
 
-from cimgraph import GraphModel
+from cimgraph.models import GraphModel
 
 from easycim.data_iterator import get_data
 from easycim.reduced_data_profile import ReducedDataProfile

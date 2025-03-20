@@ -114,3 +114,40 @@ class ReducedDataProfile():
         self.WireSpacingInfo = [
             'isCable', 'phaseWireCount', 'phaseWireSpacing', 'usage'
         ]
+
+        self.LinearShuntCompensator = ['b0PerSection', 'bPerSection', 'g0PerSection', 'gPerSection']
+
+        self.NonlinearShuntCompensatorPoint = ['sectionNumber', 'b', 'b0', 'g', 'g0']
+
+        self.StaticVarCompensator = ['capacitiveRating', 'inductiveRating', 'q', 'slope', 'sVCControlMode', 'voltageSetPoint' ]
+
+        self.Breaker = ['inTransitTime']
+
+        self.ProtectedSwitch = ['ProtectedSwitch']
+
+        self.Fuse = ['locked', 'normalOpen', 'open', 'retained', 'ratedCurrent']
+
+        self.Recloser = ['locked', 'normalOpen', 'open', 'retained', 'ratedCurrent']
+
+        self.Sectionaliser = ['locked', 'normalOpen', 'open', 'retained', 'ratedCurrent']
+
+        self.LoadBreakSwitch =  ['locked', 'normalOpen', 'open', 'retained', 'ratedCurrent']
+
+        self.Switch = ['locked', 'normalOpen', 'open', 'retained', 'ratedCurrent']
+
+        self.SynchronousMachine = ['p', 'q', 'ratedS', 'ratedU']
+
+        self.AsynchronousMachine = ['converterFedDrive', 'iaIrRatio', 'polePairNumber', 'reversible', 'rxLockedRotorRatio', 'asynchronousMachineType', 'efficiency', 'nominalFrequency', 'nominalSpeed', 'ratedMechanicalPower']
+ 
+        self.RotatingMachine = ['ratedPowerFactor', 'p', 'q', 'ratedS', 'ratedU']
+
+        self.TapChanger = ['highStep', 'lowStep', 'initialDelay']
+
+        self.RatioTapChanger = ['stepVoltageIncrement', 'tculControlMode']
+
+        self.TapChangerControl = ['lineDropCompensation', 'limitVoltage', 'lineDropR', 'lineDropX', 'reverseLineDropR', 'reverseLineDropX']
+        
+
+
+
+
