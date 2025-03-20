@@ -65,22 +65,5 @@ def get_capacitor_data(network: GraphModel) -> dict:
         for capacitor_equip in network.graph[cim.StaticVarCompensator].values():
             data_profile = ReducedDataProfile()
             capacitor_data[capacitor_equip.mRID] = get_data(capacitor_equip, data_profile.StaticVarCompensator)
-            
-            # # phase data for capacitor equip
-            # capacitor_data[capacitor_equip.mRID]['ShuntCompensatorPhase'] = []
-            # for phase in capacitor_equip.ShuntCompensatorPhase:
-            #     data = get_data(phase, data_profile.ACLineSegmentPhase)
-            #     capacitor_data[capacitor_equip.mRID]['ShuntCompensatorPhase'].append(data)
-
-            
-
-    # if cim.ShuntCompensatorPhase in network.graph:
-    #     for capacitor_equip in network.graph[cim.ShuntCompensatorPhase].values():
-    #         capacitor_data[load.mRID] = get_data(capacitor_equip, data_profile.ShuntCompensatorPhase)
-
-    # if cim.ShuntCompensator in network.graph:
-    #     for capacitor_equip in network.graph[cim.ShuntCompensator].values():
-    #         capacitor_data[load.mRID] = get_data(capacitor_equip, data_profile.ShuntCompensator)
-
 
     return capacitor_data
