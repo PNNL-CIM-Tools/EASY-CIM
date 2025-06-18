@@ -1,0 +1,42 @@
+{
+    "@type": "ACLineSegment",
+    "b0ch": "float | Susceptance",
+    "bch": "float | Susceptance",
+    "g0ch": "float | Conductance",
+    "gch": "float | Conductance",
+    "r": "float | Resistance",
+    "r0": "float | Resistance",
+    "shortCircuitEndTemperature": "float | Temperature",
+    "x": "float | Reactance",
+    "x0": "float | Reactance",
+    "length": "float | Length",
+    "aggregate": "bool",
+    "inService": "bool",
+    "networkAnalysisEnabled": "bool",
+    "normallyInService": "bool",
+    "mRID": "str",
+    "aliasName": "str",
+    "description": "str",
+    "name": "str",
+    "identifier": "uuid.UUID",
+    "ACLineSegmentPhases": [
+        {
+            "@type": "ACLineSegmentPhase",
+            "sequenceNumber": "int",
+            "phase": "SinglePhaseKind",
+            "mRID": "str",
+            "aliasName": "str",
+            "description": "str",
+            "name": "str",
+            "identifier": "uuid.UUID"
+        }
+    ],
+    "PerLengthImpedance": {
+        "@type": "PerLengthImpedance",
+        "mRID": "str",
+        "aliasName": "str",
+        "description": "str",
+        "name": "str",
+        "identifier": "uuid.UUID"
+    }
+}
