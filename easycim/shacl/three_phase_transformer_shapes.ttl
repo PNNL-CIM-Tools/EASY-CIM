@@ -1,0 +1,493 @@
+@prefix cat: <http://cimgraph.io/catalog/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix cim: <http://iec.ch/TC57/CIM100#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ===== THREE-PHASE TRANSFORMER DATA EXPORT SHAPES =====
+# Covers PowerTransformer with star and mesh impedance models
+
+cat:ThreePhaseTransformerCatalog a cat:CatalogShape ;
+    cat:catalogName "Three-Phase Transformer Data Export" ;
+    cat:catalogDescription "Complete three-phase transformer data including star and mesh impedance models" ;
+    cat:outputFormat "json" ;
+    cat:rootElement "threePhaseTransformerData" ;
+    sh:targetClass cim:PowerTransformer ;
+    
+    cat:includeRelated true ;
+    cat:maxDepth 3 ;
+    cat:includeMetadata true .
+
+# ===== BASE CLASSES =====
+
+cat:IdentifiedObjectExport a cat:CatalogShape ;
+    sh:targetClass cim:IdentifiedObject ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        cat:outputKey "mRID" ;
+        cat:serializeAs "string" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        cat:outputKey "name" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== POWER TRANSFORMER =====
+
+cat:PowerTransformerExport a cat:CatalogShape ;
+    sh:targetClass cim:PowerTransformer ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information
+    cat:includeType true ;
+    cat:typeProperty "@type" ;
+    
+    # Vector group information
+    sh:property [
+        sh:path cim:PowerTransformer.vectorGroup ;
+        cat:outputKey "vectorGroup" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Transformer ends with detailed impedance data
+    sh:property [
+        sh:path cim:PowerTransformer.PowerTransformerEnd ;
+        cat:outputKey "PowerTransformerEnd" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "PowerTransformerEndDetailedExport" ;
+        cat:orderBy "endNumber" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Transformer tanks (used to determine if three-phase)
+    sh:property [
+        sh:path cim:PowerTransformer.TransformerTanks ;
+        cat:outputKey "TransformerTanks" ;
+        cat:serializeAs "referenceArray" ;
+        cat:referenceFields ( "mRID" "name" ) ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== POWER TRANSFORMER END WITH DETAILED IMPEDANCE =====
+
+cat:PowerTransformerEndDetailedExport a cat:CatalogShape ;
+    sh:targetClass cim:PowerTransformerEnd ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Terminal connection information
+    sh:property [
+        sh:path cim:TransformerEnd.Terminal ;
+        cat:outputKey "Terminal" ;
+        cat:serializeAs "nested" ;
+        cat:useTemplate "TerminalWithConnectivityNodeExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Basic transformer end properties
+    sh:property [
+        sh:path cim:TransformerEnd.endNumber ;
+        cat:outputKey "endNumber" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerEnd.grounded ;
+        cat:outputKey "grounded" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerEnd.rground ;
+        cat:outputKey "rground" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerEnd.xground ;
+        cat:outputKey "xground" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerEnd.bmagSat ;
+        cat:outputKey "bmagSat" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerEnd.magBaseU ;
+        cat:outputKey "magBaseU" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerEnd.magSatFlux ;
+        cat:outputKey "magSatFlux" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Power transformer end specific properties
+    sh:property [
+        sh:path cim:PowerTransformerEnd.connectionKind ;
+        cat:outputKey "connectionKind" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.phaseAngleClock ;
+        cat:outputKey "phaseAngleClock" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.ratedS ;
+        cat:outputKey "ratedS" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.ratedU ;
+        cat:outputKey "ratedU" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Direct impedance values (if specified)
+    sh:property [
+        sh:path cim:PowerTransformerEnd.r ;
+        cat:outputKey "r" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.x ;
+        cat:outputKey "x" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.b ;
+        cat:outputKey "b" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.g ;
+        cat:outputKey "g" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.r0 ;
+        cat:outputKey "r0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.x0 ;
+        cat:outputKey "x0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.b0 ;
+        cat:outputKey "b0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.g0 ;
+        cat:outputKey "g0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Star impedance model
+    sh:property [
+        sh:path cim:TransformerEnd.StarImpedance ;
+        cat:outputKey "StarImpedance" ;
+        cat:serializeAs "nested" ;
+        cat:useTemplate "TransformerStarImpedanceExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Mesh impedance models (to and from)
+    sh:property [
+        sh:path cim:TransformerEnd.ToMeshImpedance ;
+        cat:outputKey "ToMeshImpedance" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "TransformerMeshImpedanceExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerEnd.FromMeshImpedance ;
+        cat:outputKey "FromMeshImpedance" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "TransformerMeshImpedanceExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Core admittance
+    sh:property [
+        sh:path cim:TransformerEnd.CoreAdmittance ;
+        cat:outputKey "CoreAdmittance" ;
+        cat:serializeAs "nested" ;
+        cat:useTemplate "TransformerCoreAdmittanceExport" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== TERMINAL WITH CONNECTIVITY NODE =====
+
+cat:TerminalWithConnectivityNodeExport a cat:CatalogShape ;
+    sh:targetClass cim:Terminal ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:ACDCTerminal.sequenceNumber ;
+        cat:outputKey "sequenceNumber" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Connectivity node name
+    sh:property [
+        sh:path cim:Terminal.ConnectivityNode ;
+        cat:outputKey "ConnectivityNode" ;
+        cat:serializeAs "name" ;  # Special serialization to extract just the name
+        cat:includeIfNull false ;
+    ] .
+
+# ===== TRANSFORMER STAR IMPEDANCE =====
+
+cat:TransformerStarImpedanceExport a cat:CatalogShape ;
+    sh:targetClass cim:TransformerStarImpedance ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Positive sequence impedance
+    sh:property [
+        sh:path cim:TransformerStarImpedance.r ;
+        cat:outputKey "r" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerStarImpedance.x ;
+        cat:outputKey "x" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Zero sequence impedance
+    sh:property [
+        sh:path cim:TransformerStarImpedance.r0 ;
+        cat:outputKey "r0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerStarImpedance.x0 ;
+        cat:outputKey "x0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== TRANSFORMER MESH IMPEDANCE =====
+
+cat:TransformerMeshImpedanceExport a cat:CatalogShape ;
+    sh:targetClass cim:TransformerMeshImpedance ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Positive sequence impedance
+    sh:property [
+        sh:path cim:TransformerMeshImpedance.r ;
+        cat:outputKey "r" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerMeshImpedance.x ;
+        cat:outputKey "x" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Zero sequence impedance
+    sh:property [
+        sh:path cim:TransformerMeshImpedance.r0 ;
+        cat:outputKey "r0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerMeshImpedance.x0 ;
+        cat:outputKey "x0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # References to transformer ends
+    sh:property [
+        sh:path cim:TransformerMeshImpedance.FromTransformerEnd ;
+        cat:outputKey "FromTransformerEnd" ;
+        cat:serializeAs "reference" ;
+        cat:referenceFields ( "mRID" "endNumber" ) ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerMeshImpedance.ToTransformerEnd ;
+        cat:outputKey "ToTransformerEnd" ;
+        cat:serializeAs "reference" ;
+        cat:referenceFields ( "mRID" "endNumber" ) ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== TRANSFORMER CORE ADMITTANCE =====
+
+cat:TransformerCoreAdmittanceExport a cat:CatalogShape ;
+    sh:targetClass cim:TransformerCoreAdmittance ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Positive sequence admittance
+    sh:property [
+        sh:path cim:TransformerCoreAdmittance.b ;
+        cat:outputKey "b" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerCoreAdmittance.g ;
+        cat:outputKey "g" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Zero sequence admittance
+    sh:property [
+        sh:path cim:TransformerCoreAdmittance.b0 ;
+        cat:outputKey "b0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerCoreAdmittance.g0 ;
+        cat:outputKey "g0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== CONNECTIVITY NODE REFERENCE =====
+
+cat:ConnectivityNodeExport a cat:CatalogShape ;
+    sh:targetClass cim:ConnectivityNode ;
+    cat:inheritsFrom cat:IdentifiedObjectExport .
+
+# ===== TRANSFORMER TANK REFERENCE =====
+
+cat:TransformerTankExport a cat:CatalogShape ;
+    sh:targetClass cim:TransformerTank ;
+    cat:inheritsFrom cat:IdentifiedObjectExport .
+
+# ===== SPECIAL SHAPES FOR ANALYSIS =====
+
+# Shape for identifying three-phase vs single-phase transformers
+cat:TransformerClassificationExport a cat:CatalogShape ;
+    sh:targetClass cim:PowerTransformer ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Count of transformer tanks (empty = three-phase)
+    sh:property [
+        sh:path cim:PowerTransformer.TransformerTanks ;
+        cat:outputKey "hasTanks" ;
+        cat:serializeAs "count" ;  # Special serialization to count items
+    ] ;
+    
+    # Count of transformer ends
+    sh:property [
+        sh:path cim:PowerTransformer.PowerTransformerEnd ;
+        cat:outputKey "endCount" ;
+        cat:serializeAs "count" ;
+    ] ;
+    
+    # Vector group
+    sh:property [
+        sh:path cim:PowerTransformer.vectorGroup ;
+        cat:outputKey "vectorGroup" ;
+        cat:includeIfNull false ;
+    ] .
+
+# Shape for impedance model summary
+cat:TransformerImpedanceModelSummary a cat:CatalogShape ;
+    sh:targetClass cim:PowerTransformer ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:PowerTransformer.PowerTransformerEnd ;
+        cat:outputKey "impedanceModels" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "TransformerEndImpedanceModelSummary" ;
+    ] .
+
+cat:TransformerEndImpedanceModelSummary a cat:CatalogShape ;
+    sh:targetClass cim:PowerTransformerEnd ;
+    
+    sh:property [
+        sh:path cim:TransformerEnd.endNumber ;
+        cat:outputKey "endNumber" ;
+    ] ;
+    
+    # Check which impedance models are present
+    sh:property [
+        sh:path cim:TransformerEnd.StarImpedance ;
+        cat:outputKey "hasStarImpedance" ;
+        cat:serializeAs "boolean" ;  # Special serialization to check existence
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerEnd.ToMeshImpedance ;
+        cat:outputKey "hasMeshImpedance" ;
+        cat:serializeAs "boolean" ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TransformerEnd.CoreAdmittance ;
+        cat:outputKey "hasCoreAdmittance" ;
+        cat:serializeAs "boolean" ;
+    ] ;
+    
+    # Direct impedance values present
+    sh:property [
+        sh:path cim:PowerTransformerEnd.r ;
+        cat:outputKey "hasDirectR" ;
+        cat:serializeAs "boolean" ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerTransformerEnd.x ;
+        cat:outputKey "hasDirectX" ;
+        cat:serializeAs "boolean" ;
+    ] .

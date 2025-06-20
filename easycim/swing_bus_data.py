@@ -156,7 +156,7 @@ def _get_source_shapes_file() -> str:
     """Get default SHACL shapes file path for source export"""
     import os
     package_dir = os.path.dirname(__file__)
-    return os.path.join(package_dir, 'shapes', 'source_data_shapes.ttl')
+    return os.path.join(package_dir, 'shacl', 'source_data_shapes.ttl')
 
 # ===== CONVENIENCE EXPORT FUNCTIONS =====
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 import importlib
 import logging
 from cimgraph.models import GraphModel
+from cimgraph.databases import get_cim_profile
 from easycim.data_iterator import get_data
 from easycim.reduced_data_profile import ReducedDataProfile
 cim = ReducedDataProfile
@@ -22,8 +23,8 @@ def get_generator_data(network: GraphModel) -> dict:
     """
 
     data_profile = ReducedDataProfile()
-    cim_profile = network.connection.connection_params.cim_profile
-    cim = importlib.import_module(f'cimgraph.data_profile.{cim_profile}')
+    cim: cim
+    cim_profile, cim = get_cim_profile()
     # Run network queries
     network.get_all_edges(cim.RotatingMachine)
     network.get_all_edges(cim.SynchronousMachine)

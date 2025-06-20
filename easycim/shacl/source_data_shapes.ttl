@@ -1,0 +1,480 @@
+@prefix cat: <http://gridappsd.org/catalog/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix cim: <http://iec.ch/TC57/CIM100#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ===== ENERGY SOURCE/SWING BUS DATA EXPORT SHAPES =====
+# Covers EnergySource and associated phase data
+
+cat:SwingBusDataCatalog a cat:CatalogShape ;
+    cat:catalogName "Energy Source and Swing Bus Data Export" ;
+    cat:catalogDescription "Complete energy source data including single-phase and three-phase sources with electrical characteristics" ;
+    cat:outputFormat "json" ;
+    cat:rootElement "swingBusData" ;
+    sh:targetClass cim:EnergySource ;
+    
+    cat:includeRelated true ;
+    cat:maxDepth 2 ;
+    cat:includeMetadata true .
+
+# ===== BASE CLASSES =====
+
+cat:IdentifiedObjectExport a cat:CatalogShape ;
+    sh:targetClass cim:IdentifiedObject ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        cat:outputKey "mRID" ;
+        cat:serializeAs "string" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        cat:outputKey "name" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== ENERGY SOURCE =====
+
+cat:EnergySourceExport a cat:CatalogShape ;
+    sh:targetClass cim:EnergySource ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information
+    cat:includeType true ;
+    cat:typeProperty "@type" ;
+    
+    # Impedance characteristics
+    sh:property [
+        sh:path cim:EnergySource.r ;
+        cat:outputKey "r" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.r0 ;
+        cat:outputKey "r0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.x ;
+        cat:outputKey "x" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.x0 ;
+        cat:outputKey "x0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Voltage characteristics
+    sh:property [
+        sh:path cim:EnergySource.nominalVoltage ;
+        cat:outputKey "nominalVoltage" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.voltageMagnitude ;
+        cat:outputKey "voltageMagnitude" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.voltageAngle ;
+        cat:outputKey "voltageAngle" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Active and reactive power
+    sh:property [
+        sh:path cim:EnergySource.activePower ;
+        cat:outputKey "activePower" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.reactivePower ;
+        cat:outputKey "reactivePower" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Phase data
+    sh:property [
+        sh:path cim:EnergySource.EnergySourcePhase ;
+        cat:outputKey "phases" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "EnergySourcePhaseExport" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== ENERGY SOURCE PHASE =====
+
+cat:EnergySourcePhaseExport a cat:CatalogShape ;
+    sh:targetClass cim:EnergySourcePhase ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Phase identification
+    sh:property [
+        sh:path cim:EnergySourcePhase.phase ;
+        cat:outputKey "phase" ;
+        cat:serializeAs "enumString" ;
+        cat:required true ;
+    ] .
+
+# ===== EQUIVALENT INJECTION (if present) =====
+
+cat:EquivalentInjectionExport a cat:CatalogShape ;
+    sh:targetClass cim:EquivalentInjection ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information
+    cat:includeType true ;
+    cat:typeProperty "@type" ;
+    
+    # Power injection
+    sh:property [
+        sh:path cim:EquivalentInjection.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EquivalentInjection.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Impedance characteristics
+    sh:property [
+        sh:path cim:EquivalentInjection.r ;
+        cat:outputKey "r" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EquivalentInjection.r0 ;
+        cat:outputKey "r0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EquivalentInjection.r2 ;
+        cat:outputKey "r2" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EquivalentInjection.x ;
+        cat:outputKey "x" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EquivalentInjection.x0 ;
+        cat:outputKey "x0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EquivalentInjection.x2 ;
+        cat:outputKey "x2" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Regulation characteristics
+    sh:property [
+        sh:path cim:EquivalentInjection.regulationCapability ;
+        cat:outputKey "regulationCapability" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EquivalentInjection.regulationStatus ;
+        cat:outputKey "regulationStatus" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EquivalentInjection.regulationTarget ;
+        cat:outputKey "regulationTarget" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== EXTERNAL NETWORK INJECTION (if present) =====
+
+cat:ExternalNetworkInjectionExport a cat:CatalogShape ;
+    sh:targetClass cim:ExternalNetworkInjection ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information
+    cat:includeType true ;
+    cat:typeProperty "@type" ;
+    
+    # Power injection
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Voltage control
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.governorSCD ;
+        cat:outputKey "governorSCD" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.maxInitialSymShCCurrent ;
+        cat:outputKey "maxInitialSymShCCurrent" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.maxP ;
+        cat:outputKey "maxP" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.maxQ ;
+        cat:outputKey "maxQ" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.maxR0ToX0Ratio ;
+        cat:outputKey "maxR0ToX0Ratio" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.maxR1ToX1Ratio ;
+        cat:outputKey "maxR1ToX1Ratio" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.maxZ0ToZ1Ratio ;
+        cat:outputKey "maxZ0ToZ1Ratio" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.minInitialSymShCCurrent ;
+        cat:outputKey "minInitialSymShCCurrent" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.minP ;
+        cat:outputKey "minP" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.minQ ;
+        cat:outputKey "minQ" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.minR0ToX0Ratio ;
+        cat:outputKey "minR0ToX0Ratio" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.minR1ToX1Ratio ;
+        cat:outputKey "minR1ToX1Ratio" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.minZ0ToZ1Ratio ;
+        cat:outputKey "minZ0ToZ1Ratio" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== POLYMORPHIC SOURCE HANDLER =====
+# Handles EnergySource, EquivalentInjection, ExternalNetworkInjection
+
+cat:SourcePolymorphicExport a cat:CatalogShape ;
+    sh:targetClass cim:EnergySource ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information for polymorphism
+    cat:includeType true ;
+    cat:typeProperty "@type" ;
+    
+    # Common impedance properties
+    sh:property [
+        sh:path cim:EnergySource.r ;
+        cat:outputKey "r" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.r0 ;
+        cat:outputKey "r0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.x ;
+        cat:outputKey "x" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.x0 ;
+        cat:outputKey "x0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Voltage characteristics (EnergySource specific)
+    sh:property [
+        sh:path cim:EnergySource.nominalVoltage ;
+        cat:outputKey "nominalVoltage" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.voltageMagnitude ;
+        cat:outputKey "voltageMagnitude" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.voltageAngle ;
+        cat:outputKey "voltageAngle" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Power injection (common to most injection types)
+    sh:property [
+        sh:path cim:EquivalentInjection.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EquivalentInjection.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ExternalNetworkInjection.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Phase data (primarily for EnergySource)
+    sh:property [
+        sh:path cim:EnergySource.EnergySourcePhase ;
+        cat:outputKey "phases" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "EnergySourcePhaseExport" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== SLACK BUS SPECIFIC EXPORT =====
+# For systems where we need to identify slack/swing buses
+
+cat:SlackBusExport a cat:CatalogShape ;
+    sh:targetClass cim:EnergySource ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Voltage control characteristics
+    sh:property [
+        sh:path cim:EnergySource.voltageMagnitude ;
+        cat:outputKey "voltageMagnitude" ;
+        cat:unitHandling "value" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.voltageAngle ;
+        cat:outputKey "voltageAngle" ;
+        cat:unitHandling "value" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.nominalVoltage ;
+        cat:outputKey "nominalVoltage" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Short circuit impedance
+    sh:property [
+        sh:path cim:EnergySource.r ;
+        cat:outputKey "r" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergySource.x ;
+        cat:outputKey "x" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
