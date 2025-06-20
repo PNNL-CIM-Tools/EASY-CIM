@@ -1,0 +1,365 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix cim: <http://iec.ch/TC57/CIM100#> .
+@prefix ex: <http://example.org/export#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ==============================================================================
+# PowerTransformer Permissions - Root asset for transformer catalog
+# ==============================================================================
+
+ex:PowerTransformerAssetShape
+    a sh:NodeShape ;
+    sh:targetClass cim:PowerTransformer ;
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.description ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:Equipment.aggregate ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:Equipment.normallyInService ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformer.vectorGroup ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformer.isPartOfGeneratorUnit ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformer.operationalValuesConsidered ;
+        ex:exportAllowed true ;
+    ] ;
+    # Allow traversal to PowerTransformerEnds - this is the key relationship
+    sh:property [
+        sh:path cim:PowerTransformer.PowerTransformerEnd ;
+        ex:exportAllowed true ;
+        ex:traverseAllowed true ;
+        ex:maxTraversalDepth 1 ;
+    ] ;
+    # Optional: Include terminals if needed for connectivity
+    sh:property [
+        sh:path cim:ConductingEquipment.Terminals ;
+        ex:exportAllowed true ;
+        ex:traverseAllowed false ;  # Reference only for transformers
+    ] .
+
+# ==============================================================================
+# PowerTransformerEnd Permissions - Nested within PowerTransformer
+# ==============================================================================
+
+ex:PowerTransformerEndAssetShape
+    a sh:NodeShape ;
+    sh:targetClass cim:PowerTransformerEnd ;
+    # Only include PowerTransformerEnds that belong to allowed PowerTransformers
+    ex:conditionalExport [
+        ex:condition ex:BelongsToAllowedPowerTransformer ;
+        ex:conditionPath cim:PowerTransformerEnd.PowerTransformer ;
+        ex:allowedTypes ( cim:PowerTransformer ) ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.description ;
+        ex:exportAllowed true ;
+    ] ;
+    # Core PowerTransformerEnd electrical parameters
+    sh:property [
+        sh:path cim:TransformerEnd.endNumber ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TransformerEnd.grounded ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TransformerEnd.rground ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TransformerEnd.xground ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.connectionKind ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.phaseAngleClock ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.r ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.x ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.b ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.g ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.r0 ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.x0 ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.b0 ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.g0 ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.ratedS ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:PowerTransformerEnd.ratedU ;
+        ex:exportAllowed true ;
+    ] ;
+    # Reference back to PowerTransformer (but don't traverse to avoid loops)
+    sh:property [
+        sh:path cim:PowerTransformerEnd.PowerTransformer ;
+        ex:exportAllowed true ;
+        ex:traverseAllowed false ;
+    ] ;
+    # Optional: Include terminal reference
+    sh:property [
+        sh:path cim:TransformerEnd.Terminal ;
+        ex:exportAllowed true ;
+        ex:traverseAllowed false ;
+    ] .
+
+# ==============================================================================
+# Optional: Include WindingTest data for detailed transformer modeling
+# ==============================================================================
+
+ex:WindingTestShape
+    a sh:NodeShape ;
+    sh:targetClass cim:WindingTest ;
+    # Only include tests related to allowed PowerTransformerEnds
+    ex:conditionalExport [
+        sh:path cim:WindingTest.PowerTransformerEnd ;
+        ex:conditionType ex:hasAnyRelatedOfType ;
+        ex:relatedPath cim:PowerTransformerEnd.PowerTransformer ;
+        ex:allowedTypes ( cim:PowerTransformer ) ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:WindingTest.leakageImpedance ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:WindingTest.loadLoss ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:WindingTest.noLoadLoss ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:WindingTest.phaseShift ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:WindingTest.voltage ;
+        ex:exportAllowed true ;
+    ] ;
+    # Reference to PowerTransformerEnd
+    sh:property [
+        sh:path cim:WindingTest.PowerTransformerEnd ;
+        ex:exportAllowed true ;
+        ex:traverseAllowed false ;
+    ] .
+
+# ==============================================================================
+# Optional: Include RatioTapChanger for transformers with tap changers
+# ==============================================================================
+
+ex:RatioTapChangerShape
+    a sh:NodeShape ;
+    sh:targetClass cim:RatioTapChanger ;
+    # Only include tap changers on allowed transformer ends
+    ex:conditionalExport [
+        ex:condition ex:BelongsToAllowedTransformerEnd ;
+        ex:conditionPath cim:TapChanger.TransformerEnd ;
+        ex:conditionType ex:hasAnyRelatedOfType ;
+        ex:relatedPath cim:PowerTransformerEnd.PowerTransformer ;
+        ex:allowedTypes ( cim:PowerTransformer ) ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.controlEnabled ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.highStep ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.lowStep ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.neutralStep ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.neutralU ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.normalStep ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.step ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:RatioTapChanger.stepVoltageIncrement ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:RatioTapChanger.tculControlMode ;
+        ex:exportAllowed true ;
+    ] ;
+    # Reference to TransformerEnd
+    sh:property [
+        sh:path cim:TapChanger.TransformerEnd ;
+        ex:exportAllowed true ;
+        ex:traverseAllowed false ;
+    ] .
+
+# ==============================================================================
+# Optional: Include PhaseTapChanger for phase-shifting transformers
+# ==============================================================================
+
+ex:PhaseTapChangerShape
+    a sh:NodeShape ;
+    sh:targetClass cim:PhaseTapChanger ;
+    # Only include phase tap changers on allowed transformer ends
+    ex:conditionalExport [
+        ex:condition ex:BelongsToAllowedTransformerEnd ;
+        ex:conditionPath cim:TapChanger.TransformerEnd ;
+        ex:conditionType ex:hasAnyRelatedOfType ;
+        ex:relatedPath cim:PowerTransformerEnd.PowerTransformer ;
+        ex:allowedTypes ( cim:PowerTransformer ) ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.controlEnabled ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.highStep ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.lowStep ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.neutralStep ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.normalStep ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:TapChanger.step ;
+        ex:exportAllowed true ;
+    ] ;
+    # Reference to TransformerEnd
+    sh:property [
+        sh:path cim:TapChanger.TransformerEnd ;
+        ex:exportAllowed true ;
+        ex:traverseAllowed false ;
+    ] .
+
+# ==============================================================================
+# Optional: Include Terminal information for connectivity context
+# ==============================================================================
+
+ex:TerminalTransformerShape
+    a sh:NodeShape ;
+    sh:targetClass cim:Terminal ;
+    # Only include terminals connected to allowed PowerTransformers
+    ex:conditionalExport [
+        ex:condition ex:ConductingEquipmentIsAllowedTransformer ;
+        ex:conditionPath cim:Terminal.ConductingEquipment ;
+        ex:allowedTypes ( cim:PowerTransformer ) ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:ACDCTerminal.sequenceNumber ;
+        ex:exportAllowed true ;
+    ] ;
+    sh:property [
+        sh:path cim:Terminal.phases ;
+        ex:exportAllowed true ;
+    ] ;
+    # Reference back to transformer (no traversal to avoid loops)
+    sh:property [
+        sh:path cim:Terminal.ConductingEquipment ;
+        ex:exportAllowed true ;
+        ex:traverseAllowed false ;
+    ] .

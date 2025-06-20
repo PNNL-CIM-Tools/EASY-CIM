@@ -1,0 +1,393 @@
+@prefix cat: <http://gridappsd.org/catalog/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix cim: <http://iec.ch/TC57/CIM100#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ===== LOAD DATA EXPORT SHAPES =====
+# Covers EnergyConsumer, ConformLoad, NonConformLoad and their phases
+
+cat:LoadDataCatalog a cat:CatalogShape ;
+    cat:catalogName "Load Data Export" ;
+    cat:catalogDescription "Complete load data including single-phase and three-phase loads with characteristics" ;
+    cat:outputFormat "json" ;
+    cat:rootElement "loadData" ;
+    
+    # Multi-target catalog for different load types
+    cat:includeRelated true ;
+    cat:maxDepth 2 ;
+    cat:includeMetadata true .
+
+# ===== BASE CLASSES =====
+
+cat:IdentifiedObjectExport a cat:CatalogShape ;
+    sh:targetClass cim:IdentifiedObject ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        cat:outputKey "mRID" ;
+        cat:serializeAs "string" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        cat:outputKey "name" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== ENERGY CONSUMER BASE =====
+
+cat:EnergyConsumerExport a cat:CatalogShape ;
+    sh:targetClass cim:EnergyConsumer ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information for polymorphism (EnergyConsumer/ConformLoad/NonConformLoad)
+    cat:includeType true ;
+    cat:typeProperty "@type" ;
+    
+    # Load power values
+    sh:property [
+        sh:path cim:EnergyConsumer.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergyConsumer.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Load characteristics
+    sh:property [
+        sh:path cim:EnergyConsumer.customerCount ;
+        cat:outputKey "customerCount" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergyConsumer.grounded ;
+        cat:outputKey "grounded" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergyConsumer.phaseConnection ;
+        cat:outputKey "phaseConnection" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Phase data
+    sh:property [
+        sh:path cim:EnergyConsumer.EnergyConsumerPhase ;
+        cat:outputKey "phases" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "EnergyConsumerPhaseExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # House data (if present)
+    sh:property [
+        sh:path cim:EnergyConsumer.House ;
+        cat:outputKey "House" ;
+        cat:serializeAs "nested" ;
+        cat:useTemplate "HouseExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Load response characteristics (if present)
+    sh:property [
+        sh:path cim:EnergyConsumer.LoadResponse ;
+        cat:outputKey "LoadResponse" ;
+        cat:serializeAs "nested" ;
+        cat:useTemplate "LoadResponseCharacteristicExport" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== CONFORM LOAD =====
+
+cat:ConformLoadExport a cat:CatalogShape ;
+    sh:targetClass cim:ConformLoad ;
+    cat:inheritsFrom cat:EnergyConsumerExport ;
+    
+    # ConformLoad specific properties
+    sh:property [
+        sh:path cim:ConformLoad.LoadGroup ;
+        cat:outputKey "LoadGroup" ;
+        cat:serializeAs "reference" ;
+        cat:referenceFields ( "mRID" "name" ) ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== NON-CONFORM LOAD =====
+
+cat:NonConformLoadExport a cat:CatalogShape ;
+    sh:targetClass cim:NonConformLoad ;
+    cat:inheritsFrom cat:EnergyConsumerExport ;
+    
+    # NonConformLoad specific properties
+    sh:property [
+        sh:path cim:NonConformLoad.LoadGroup ;
+        cat:outputKey "LoadGroup" ;
+        cat:serializeAs "reference" ;
+        cat:referenceFields ( "mRID" "name" ) ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== ENERGY CONSUMER PHASE =====
+
+cat:EnergyConsumerPhaseExport a cat:CatalogShape ;
+    sh:targetClass cim:EnergyConsumerPhase ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Phase identification
+    sh:property [
+        sh:path cim:EnergyConsumerPhase.phase ;
+        cat:outputKey "phase" ;
+        cat:serializeAs "enumString" ;
+        cat:required true ;
+    ] ;
+    
+    # Phase-specific power values
+    sh:property [
+        sh:path cim:EnergyConsumerPhase.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergyConsumerPhase.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== HOUSE CHARACTERISTICS =====
+
+cat:HouseExport a cat:CatalogShape ;
+    sh:targetClass cim:House ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # HVAC settings
+    sh:property [
+        sh:path cim:House.coolingSetpoint ;
+        cat:outputKey "coolingSetpoint" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:House.coolingSystem ;
+        cat:outputKey "coolingSystem" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:House.heatingSetpoint ;
+        cat:outputKey "heatingSetpoint" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:House.heatingSystem ;
+        cat:outputKey "heatingSystem" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Physical characteristics
+    sh:property [
+        sh:path cim:House.floorArea ;
+        cat:outputKey "floorArea" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:House.numberOfStories ;
+        cat:outputKey "numberOfStories" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # HVAC characteristics
+    sh:property [
+        sh:path cim:House.hvacPowerFactor ;
+        cat:outputKey "hvacPowerFactor" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== LOAD RESPONSE CHARACTERISTICS =====
+
+cat:LoadResponseCharacteristicExport a cat:CatalogShape ;
+    sh:targetClass cim:LoadResponseCharacteristic ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Voltage dependency
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.exponentModel ;
+        cat:outputKey "exponentModel" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.pConstantCurrent ;
+        cat:outputKey "pConstantCurrent" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.pConstantImpedance ;
+        cat:outputKey "pConstantImpedance" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.pConstantPower ;
+        cat:outputKey "pConstantPower" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.pVoltageExponent ;
+        cat:outputKey "pVoltageExponent" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.qConstantCurrent ;
+        cat:outputKey "qConstantCurrent" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.qConstantImpedance ;
+        cat:outputKey "qConstantImpedance" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.qConstantPower ;
+        cat:outputKey "qConstantPower" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.qVoltageExponent ;
+        cat:outputKey "qVoltageExponent" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Frequency dependency
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.pFrequencyExponent ;
+        cat:outputKey "pFrequencyExponent" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:LoadResponseCharacteristic.qFrequencyExponent ;
+        cat:outputKey "qFrequencyExponent" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== LOAD GROUP (for reference) =====
+
+cat:LoadGroupExport a cat:CatalogShape ;
+    sh:targetClass cim:LoadGroup ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:LoadGroup.type ;
+        cat:outputKey "type" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== POLYMORPHIC LOAD HANDLER =====
+# This handles EnergyConsumer, ConformLoad, and NonConformLoad uniformly
+
+cat:LoadPolymorphicExport a cat:CatalogShape ;
+    sh:targetClass cim:EnergyConsumer ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information for polymorphism
+    cat:includeType true ;
+    cat:typeProperty "@type" ;
+    
+    # All common load properties
+    sh:property [
+        sh:path cim:EnergyConsumer.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergyConsumer.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergyConsumer.customerCount ;
+        cat:outputKey "customerCount" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergyConsumer.grounded ;
+        cat:outputKey "grounded" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:EnergyConsumer.phaseConnection ;
+        cat:outputKey "phaseConnection" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Phase data
+    sh:property [
+        sh:path cim:EnergyConsumer.EnergyConsumerPhase ;
+        cat:outputKey "phases" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "EnergyConsumerPhaseExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # House data (conditional - only if present)
+    sh:property [
+        sh:path cim:EnergyConsumer.House ;
+        cat:outputKey "House" ;
+        cat:serializeAs "nested" ;
+        cat:useTemplate "HouseExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Load group (for ConformLoad and NonConformLoad)
+    sh:property [
+        sh:path cim:ConformLoad.LoadGroup ;
+        cat:outputKey "LoadGroup" ;
+        cat:serializeAs "reference" ;
+        cat:referenceFields ( "mRID" "name" ) ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:NonConformLoad.LoadGroup ;
+        cat:outputKey "LoadGroup" ;
+        cat:serializeAs "reference" ;
+        cat:referenceFields ( "mRID" "name" ) ;
+        cat:includeIfNull false ;
+    ] .

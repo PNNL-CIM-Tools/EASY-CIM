@@ -1,0 +1,163 @@
+@prefix cat: <http://gridappsd.org/catalog/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix cim: <http://iec.ch/TC57/CIM100#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+cat:GeneratorDataCatalog a cat:CatalogShape ;
+    cat:catalogName "Generator and Motor Data Export" ;
+    cat:catalogDescription "Complete generator and motor data including asynchronous machines, synchronous machines, and rotating machines" ;
+    cat:outputFormat "json" ;
+    cat:rootElement "generatorData" ;
+    sh:targetClass cim:PowerElectronicsConnection ;
+    
+    cat:includeRelated true ;
+    cat:maxDepth 2 ;
+    cat:includeMetadata true .
+
+# ===== ASYNCHRONOUS MACHINE (for wind) =====
+
+cat:AsynchronousMachineExport a cat:CatalogShape ;
+    sh:targetClass cim:AsynchronousMachine ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:AsynchronousMachine.converterFedDrive ;
+        cat:outputKey "converterFedDrive" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:AsynchronousMachine.iaIrRatio ;
+        cat:outputKey "iaIrRatio" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:AsynchronousMachine.polePairNumber ;
+        cat:outputKey "polePairNumber" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:AsynchronousMachine.reversible ;
+        cat:outputKey "reversible" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:AsynchronousMachine.rxLockedRotorRatio ;
+        cat:outputKey "rxLockedRotorRatio" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:AsynchronousMachine.asynchronousMachineType ;
+        cat:outputKey "asynchronousMachineType" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:AsynchronousMachine.efficiency ;
+        cat:outputKey "efficiency" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:AsynchronousMachine.nominalFrequency ;
+        cat:outputKey "nominalFrequency" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:AsynchronousMachine.nominalSpeed ;
+        cat:outputKey "nominalSpeed" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:AsynchronousMachine.ratedMechanicalPower ;
+        cat:outputKey "ratedMechanicalPower" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== SYNCHRONOUS MACHINE =====
+
+cat:SynchronousMachineExport a cat:CatalogShape ;
+    sh:targetClass cim:SynchronousMachine ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:SynchronousMachine.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:SynchronousMachine.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:SynchronousMachine.ratedS ;
+        cat:outputKey "ratedS" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:SynchronousMachine.ratedU ;
+        cat:outputKey "ratedU" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== ROTATING MACHINE BASE =====
+
+cat:RotatingMachineExport a cat:CatalogShape ;
+    sh:targetClass cim:RotatingMachine ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:RotatingMachine.ratedPowerFactor ;
+        cat:outputKey "ratedPowerFactor" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:RotatingMachine.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:RotatingMachine.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:RotatingMachine.ratedS ;
+        cat:outputKey "ratedS" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:RotatingMachine.ratedU ;
+        cat:outputKey "ratedU" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .

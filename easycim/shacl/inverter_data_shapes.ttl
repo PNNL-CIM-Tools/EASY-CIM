@@ -1,0 +1,269 @@
+@prefix cat: <http://gridappsd.org/catalog/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix cim: <http://iec.ch/TC57/CIM100#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ===== INVERTER/POWER ELECTRONICS DATA EXPORT SHAPES =====
+# Covers PowerElectronicsConnection and all associated units
+
+cat:InverterDataCatalog a cat:CatalogShape ;
+    cat:catalogName "Inverter and Power Electronics Data Export" ;
+    cat:catalogDescription "Complete inverter data including single-phase and three-phase connections with battery, PV, and wind units" ;
+    cat:outputFormat "json" ;
+    cat:rootElement "inverterData" ;
+    sh:targetClass cim:PowerElectronicsConnection ;
+    
+    cat:includeRelated true ;
+    cat:maxDepth 2 ;
+    cat:includeMetadata true .
+
+# ===== BASE CLASSES =====
+
+cat:IdentifiedObjectExport a cat:CatalogShape ;
+    sh:targetClass cim:IdentifiedObject ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        cat:outputKey "mRID" ;
+        cat:serializeAs "string" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        cat:outputKey "name" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== POWER ELECTRONICS CONNECTION =====
+
+cat:PowerElectronicsConnectionExport a cat:CatalogShape ;
+    sh:targetClass cim:PowerElectronicsConnection ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information
+    cat:includeType true ;
+    cat:typeProperty "@type" ;
+    
+    # Power and electrical characteristics
+    sh:property [
+        sh:path cim:PowerElectronicsConnection.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerElectronicsConnection.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerElectronicsConnection.minQ ;
+        cat:outputKey "minQ" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerElectronicsConnection.maxQ ;
+        cat:outputKey "maxQ" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Rated characteristics
+    sh:property [
+        sh:path cim:PowerElectronicsConnection.ratedS ;
+        cat:outputKey "ratedS" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerElectronicsConnection.ratedU ;
+        cat:outputKey "ratedU" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Fault current capability
+    sh:property [
+        sh:path cim:PowerElectronicsConnection.maxIFault ;
+        cat:outputKey "maxIFault" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Phase connections
+    sh:property [
+        sh:path cim:PowerElectronicsConnection.PowerElectronicsConnectionPhases ;
+        cat:outputKey "phases" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "PowerElectronicsConnectionPhaseExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Associated units (polymorphic - PV, Battery, Wind, etc.)
+    sh:property [
+        sh:path cim:PowerElectronicsConnection.PowerElectronicsUnit ;
+        cat:outputKey "PowerElectronicsUnit" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "PowerElectronicsUnitPolymorphic" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== POWER ELECTRONICS CONNECTION PHASE =====
+
+cat:PowerElectronicsConnectionPhaseExport a cat:CatalogShape ;
+    sh:targetClass cim:PowerElectronicsConnectionPhase ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Phase identification
+    sh:property [
+        sh:path cim:PowerElectronicsConnectionPhase.phase ;
+        cat:outputKey "phase" ;
+        cat:serializeAs "enumString" ;
+        cat:required true ;
+    ] ;
+    
+    # Phase-specific power values
+    sh:property [
+        sh:path cim:PowerElectronicsConnectionPhase.p ;
+        cat:outputKey "p" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerElectronicsConnectionPhase.q ;
+        cat:outputKey "q" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== POLYMORPHIC POWER ELECTRONICS UNIT HANDLER =====
+
+cat:PowerElectronicsUnitPolymorphic a cat:CatalogShape ;
+    sh:targetClass cim:PowerElectronicsUnit ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information for polymorphism
+    cat:includeType true ;
+    cat:typeProperty "__class__" ;
+    
+    # Base PowerElectronicsUnit properties
+    sh:property [
+        sh:path cim:PowerElectronicsUnit.minP ;
+        cat:outputKey "minP" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerElectronicsUnit.maxP ;
+        cat:outputKey "maxP" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== BATTERY UNIT =====
+
+cat:BatteryUnitExport a cat:CatalogShape ;
+    sh:targetClass cim:BatteryUnit ;
+    cat:inheritsFrom cat:PowerElectronicsUnitPolymorphic ;
+    
+    # Battery-specific properties
+    sh:property [
+        sh:path cim:BatteryUnit.batteryState ;
+        cat:outputKey "batteryState" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:BatteryUnit.ratedE ;
+        cat:outputKey "ratedE" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:BatteryUnit.storedE ;
+        cat:outputKey "storedE" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== PHOTOVOLTAIC UNIT =====
+# Handles both PhotoVoltaicUnit and PhotovoltaicUnit spelling variations
+
+cat:PhotoVoltaicUnitExport a cat:CatalogShape ;
+    sh:targetClass cim:PhotoVoltaicUnit ;
+    cat:inheritsFrom cat:PowerElectronicsUnitPolymorphic .
+
+cat:PhotovoltaicUnitExport a cat:CatalogShape ;
+    sh:targetClass cim:PhotovoltaicUnit ;
+    cat:inheritsFrom cat:PowerElectronicsUnitPolymorphic .
+
+# ===== WIND UNIT =====
+
+cat:PowerElectronicsWindUnitExport a cat:CatalogShape ;
+    sh:targetClass cim:PowerElectronicsWindUnit ;
+    cat:inheritsFrom cat:PowerElectronicsUnitPolymorphic .
+
+# ===== SOLAR GENERATING UNIT (if present) =====
+
+cat:SolarGeneratingUnitExport a cat:CatalogShape ;
+    sh:targetClass cim:SolarGeneratingUnit ;
+    cat:inheritsFrom cat:PowerElectronicsUnitPolymorphic .
+
+# ===== POWER ELECTRONICS UNIT BASE =====
+
+cat:PowerElectronicsUnitExport a cat:CatalogShape ;
+    sh:targetClass cim:PowerElectronicsUnit ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information
+    cat:includeType true ;
+    cat:typeProperty "__class__" ;
+    
+    # Power limits
+    sh:property [
+        sh:path cim:PowerElectronicsUnit.minP ;
+        cat:outputKey "minP" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PowerElectronicsUnit.maxP ;
+        cat:outputKey "maxP" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Battery-specific properties (conditional)
+    sh:property [
+        sh:path cim:BatteryUnit.batteryState ;
+        cat:outputKey "batteryState" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:BatteryUnit.ratedE ;
+        cat:outputKey "ratedE" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:BatteryUnit.storedE ;
+        cat:outputKey "storedE" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+

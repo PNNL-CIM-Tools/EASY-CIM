@@ -1,9 +1,6 @@
-import base64
 import enum
 import logging
 from dataclasses import is_dataclass
-
-import requests
 
 from cimgraph.databases import get_cim_profile
 from cimgraph.data_profile.identity import Identity
@@ -307,8 +304,7 @@ def add_class_path_schema(root: type, path: str | list[str], schema: str,
             next_class_name = next_str.type.split('[')[1].split(']')[0]
             
             next_class = getattr(cim, next_class_name)
-        # next_class = eval(f'{edge.__module__}.{next_class_name}')
-        # schema += class_mermaid(next_class, show_attributes, show_inherited)
+           
         edge = next_class
     return schema
 

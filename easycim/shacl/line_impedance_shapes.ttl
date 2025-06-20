@@ -1,0 +1,523 @@
+@prefix cat: <http://gridappsd.org/catalog/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix cim: <http://iec.ch/TC57/CIM100#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ===== LINE IMPEDANCE EXPORT SHAPES =====
+# Main catalog for line impedance data export
+
+cat:LineImpedanceCatalog a cat:CatalogShape ;
+    cat:catalogName "Line Impedance Data Export" ;
+    cat:catalogDescription "Complete line impedance data including sequence and phase impedance information" ;
+    cat:outputFormat "json" ;
+    cat:rootElement "lineImpedanceData" ;
+    sh:targetClass cim:ACLineSegment ;
+    
+    cat:includeRelated true ;
+    cat:maxDepth 3 ;
+    cat:includeMetadata true .
+
+# ===== BASE CLASSES =====
+
+cat:IdentifiedObjectExport a cat:CatalogShape ;
+    sh:targetClass cim:IdentifiedObject ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        cat:outputKey "mRID" ;
+        cat:serializeAs "string" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        cat:outputKey "name" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== AC LINE SEGMENT =====
+
+cat:ACLineSegmentExport a cat:CatalogShape ;
+    sh:targetClass cim:ACLineSegment ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Line physical properties
+    sh:property [
+        sh:path cim:Conductor.length ;
+        cat:outputKey "length" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Positive sequence impedance
+    sh:property [
+        sh:path cim:ACLineSegment.r ;
+        cat:outputKey "r" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ACLineSegment.x ;
+        cat:outputKey "x" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ACLineSegment.bch ;
+        cat:outputKey "bch" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Zero sequence impedance
+    sh:property [
+        sh:path cim:ACLineSegment.r0 ;
+        cat:outputKey "r0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ACLineSegment.x0 ;
+        cat:outputKey "x0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ACLineSegment.b0ch ;
+        cat:outputKey "b0ch" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Associated phase data
+    sh:property [
+        sh:path cim:ACLineSegment.ACLineSegmentPhases ;
+        cat:outputKey "ACLineSegmentPhases" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "ACLineSegmentPhaseExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Per-length impedance data (polymorphic)
+    sh:property [
+        sh:path cim:Conductor.PerLengthImpedance ;
+        cat:outputKey "PerLengthImpedance" ;
+        cat:serializeAs "nested" ;
+        cat:useTemplate "PerLengthImpedancePolymorphic" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== AC LINE SEGMENT PHASE =====
+
+cat:ACLineSegmentPhaseExport a cat:CatalogShape ;
+    sh:targetClass cim:ACLineSegmentPhase ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:ACLineSegmentPhase.phase ;
+        cat:outputKey "phase" ;
+        cat:serializeAs "enumString" ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ACDCTerminal.sequenceNumber ;
+        cat:outputKey "sequenceNumber" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== POLYMORPHIC PER-LENGTH IMPEDANCE HANDLER =====
+# This handles both PerLengthSequenceImpedance and PerLengthPhaseImpedance
+
+cat:PerLengthImpedancePolymorphic a cat:CatalogShape ;
+    sh:targetClass cim:PerLengthImpedance ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Add type information to handle polymorphism
+    cat:includeType true ;
+    cat:typeProperty "@type" ;
+    
+    # Common properties (will be included if they exist)
+    sh:property [
+        sh:path cim:PerLengthImpedance.conductorCount ;
+        cat:outputKey "conductorCount" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== PER-LENGTH SEQUENCE IMPEDANCE =====
+
+cat:PerLengthSequenceImpedanceExport a cat:CatalogShape ;
+    sh:targetClass cim:PerLengthSequenceImpedance ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Positive sequence parameters
+    sh:property [
+        sh:path cim:PerLengthSequenceImpedance.r ;
+        cat:outputKey "r" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PerLengthSequenceImpedance.x ;
+        cat:outputKey "x" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PerLengthSequenceImpedance.bch ;
+        cat:outputKey "bch" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PerLengthSequenceImpedance.gch ;
+        cat:outputKey "gch" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Zero sequence parameters
+    sh:property [
+        sh:path cim:PerLengthSequenceImpedance.r0 ;
+        cat:outputKey "r0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PerLengthSequenceImpedance.x0 ;
+        cat:outputKey "x0" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PerLengthSequenceImpedance.b0ch ;
+        cat:outputKey "b0ch" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PerLengthSequenceImpedance.g0ch ;
+        cat:outputKey "g0ch" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== PER-LENGTH PHASE IMPEDANCE =====
+
+cat:PerLengthPhaseImpedanceExport a cat:CatalogShape ;
+    sh:targetClass cim:PerLengthPhaseImpedance ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:PerLengthPhaseImpedance.conductorCount ;
+        cat:outputKey "conductorCount" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Phase impedance data matrix
+    sh:property [
+        sh:path cim:PerLengthPhaseImpedance.PhaseImpedanceData ;
+        cat:outputKey "PhaseImpedanceData" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "PhaseImpedanceDataExport" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== PHASE IMPEDANCE DATA =====
+
+cat:PhaseImpedanceDataExport a cat:CatalogShape ;
+    sh:targetClass cim:PhaseImpedanceData ;
+    
+    # Matrix position
+    sh:property [
+        sh:path cim:PhaseImpedanceData.row ;
+        cat:outputKey "row" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PhaseImpedanceData.column ;
+        cat:outputKey "column" ;
+        cat:required true ;
+    ] ;
+    
+    # Impedance values
+    sh:property [
+        sh:path cim:PhaseImpedanceData.r ;
+        cat:outputKey "r" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PhaseImpedanceData.x ;
+        cat:outputKey "x" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Admittance values
+    sh:property [
+        sh:path cim:PhaseImpedanceData.b ;
+        cat:outputKey "b" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:PhaseImpedanceData.g ;
+        cat:outputKey "g" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== WIRE AND CABLE INFO (Extended support) =====
+# These are often associated with line impedance calculations
+
+cat:WireInfoExport a cat:CatalogShape ;
+    sh:targetClass cim:WireInfo ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:WireInfo.coreRadius ;
+        cat:outputKey "coreRadius" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.coreStrandCount ;
+        cat:outputKey "coreStrandCount" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.gmr ;
+        cat:outputKey "gmr" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.rAC25 ;
+        cat:outputKey "rAC25" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.rAC50 ;
+        cat:outputKey "rAC50" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.rAC75 ;
+        cat:outputKey "rAC75" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.radius ;
+        cat:outputKey "radius" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.ratedCurrent ;
+        cat:outputKey "ratedCurrent" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.rDC20 ;
+        cat:outputKey "rDC20" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.material ;
+        cat:outputKey "material" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] .
+
+cat:CableInfoExport a cat:CatalogShape ;
+    sh:targetClass cim:CableInfo ;
+    cat:inheritsFrom cat:WireInfoExport ;
+    
+    sh:property [
+        sh:path cim:CableInfo.constructionKind ;
+        cat:outputKey "constructionKind" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.diameterOverCore ;
+        cat:outputKey "diameterOverCore" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.diameterOverInsulation ;
+        cat:outputKey "diameterOverInsulation" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.diameterOverJacket ;
+        cat:outputKey "diameterOverJacket" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.isStrandFill ;
+        cat:outputKey "isStrandFill" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.nominalTemperature ;
+        cat:outputKey "nominalTemperature" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+cat:ConcentricNeutralCableInfoExport a cat:CatalogShape ;
+    sh:targetClass cim:ConcentricNeutralCableInfo ;
+    cat:inheritsFrom cat:CableInfoExport ;
+    
+    sh:property [
+        sh:path cim:ConcentricNeutralCableInfo.diameterOverNeutral ;
+        cat:outputKey "diameterOverNeutral" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ConcentricNeutralCableInfo.neutralStrandCount ;
+        cat:outputKey "neutralStrandCount" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ConcentricNeutralCableInfo.neutralStrandGmr ;
+        cat:outputKey "neutralStrandGmr" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ConcentricNeutralCableInfo.neutralStrandRadius ;
+        cat:outputKey "neutralStrandRadius" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ConcentricNeutralCableInfo.neutralStrandRDC20 ;
+        cat:outputKey "neutralStrandRDC20" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+cat:TapeShieldCableInfoExport a cat:CatalogShape ;
+    sh:targetClass cim:TapeShieldCableInfo ;
+    cat:inheritsFrom cat:CableInfoExport ;
+    
+    sh:property [
+        sh:path cim:TapeShieldCableInfo.tapeLap ;
+        cat:outputKey "tapeLap" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TapeShieldCableInfo.tapeThickness ;
+        cat:outputKey "tapeThickness" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== WIRE SPACING INFO =====
+
+cat:WireSpacingInfoExport a cat:CatalogShape ;
+    sh:targetClass cim:WireSpacingInfo ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:WireSpacingInfo.isCable ;
+        cat:outputKey "isCable" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireSpacingInfo.phaseWireCount ;
+        cat:outputKey "phaseWireCount" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireSpacingInfo.phaseWireSpacing ;
+        cat:outputKey "phaseWireSpacing" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireSpacingInfo.usage ;
+        cat:outputKey "usage" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Wire positions
+    sh:property [
+        sh:path cim:WireSpacingInfo.WirePositions ;
+        cat:outputKey "WirePositions" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "WirePositionExport" ;
+        cat:includeIfNull false ;
+    ] .
+
+cat:WirePositionExport a cat:CatalogShape ;
+    sh:targetClass cim:WirePosition ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:WirePosition.sequenceNumber ;
+        cat:outputKey "sequenceNumber" ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WirePosition.xCoord ;
+        cat:outputKey "xCoord" ;
+        cat:unitHandling "value" ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WirePosition.yCoord ;
+        cat:outputKey "yCoord" ;
+        cat:unitHandling "value" ;
+    ] .
+

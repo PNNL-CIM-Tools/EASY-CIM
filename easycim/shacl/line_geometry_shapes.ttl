@@ -1,0 +1,509 @@
+@prefix cat: <http://gridappsd.org/catalog/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix cim: <http://iec.ch/TC57/CIM100#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ===== LINE GEOMETRY EXPORT SHAPES =====
+# Covers both conductor-centric and line-centric geometry data exports
+
+# ===== MAIN CATALOG DEFINITIONS =====
+
+cat:LineGeometryByWireCatalog a cat:CatalogShape ;
+    cat:catalogName "Line Geometry Data by Wire Type" ;
+    cat:catalogDescription "Conductor geometry data organized by wire/cable type with associated line phases" ;
+    cat:outputFormat "json" ;
+    cat:rootElement "lineGeometryByWire" ;
+    
+    # This is a multi-target catalog that handles different wire types
+    cat:includeRelated true ;
+    cat:maxDepth 3 ;
+    cat:includeMetadata true .
+
+cat:LineGeometryByLineCatalog a cat:CatalogShape ;
+    cat:catalogName "Line Geometry Data by Line Segment" ;
+    cat:catalogDescription "Line segment geometry data with conductor and spacing information" ;
+    cat:outputFormat "json" ;
+    cat:rootElement "lineGeometryByLine" ;
+    sh:targetClass cim:ACLineSegment ;
+    
+    cat:includeRelated true ;
+    cat:maxDepth 3 ;
+    cat:includeMetadata true .
+
+# ===== BASE CLASSES =====
+
+cat:IdentifiedObjectExport a cat:CatalogShape ;
+    sh:targetClass cim:IdentifiedObject ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        cat:outputKey "mRID" ;
+        cat:serializeAs "string" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        cat:outputKey "name" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== AC LINE SEGMENT FOR GEOMETRY =====
+
+cat:ACLineSegmentGeometryExport a cat:CatalogShape ;
+    sh:targetClass cim:ACLineSegment ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:Conductor.length ;
+        cat:outputKey "length" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Phase geometry data
+    sh:property [
+        sh:path cim:ACLineSegment.ACLineSegmentPhases ;
+        cat:outputKey "ACLineSegmentPhases" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "ACLineSegmentPhaseGeometryExport" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Wire spacing information
+    sh:property [
+        sh:path cim:ACLineSegment.WireSpacingInfo ;
+        cat:outputKey "WireSpacingInfo" ;
+        cat:serializeAs "nested" ;
+        cat:useTemplate "WireSpacingInfoExport" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== AC LINE SEGMENT PHASE WITH GEOMETRY =====
+
+cat:ACLineSegmentPhaseGeometryExport a cat:CatalogShape ;
+    sh:targetClass cim:ACLineSegmentPhase ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:ACLineSegmentPhase.phase ;
+        cat:outputKey "phase" ;
+        cat:serializeAs "enumString" ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ACDCTerminal.sequenceNumber ;
+        cat:outputKey "sequenceNumber" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Wire information (polymorphic)
+    sh:property [
+        sh:path cim:ACLineSegmentPhase.WireInfo ;
+        cat:outputKey "WireInfo" ;
+        cat:serializeAs "nested" ;
+        cat:useTemplate "WireInfoPolymorphic" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Reference back to line segment
+    sh:property [
+        sh:path cim:ACLineSegmentPhase.ACLineSegment ;
+        cat:outputKey "ACLineSegment" ;
+        cat:serializeAs "reference" ;
+        cat:referenceFields ( "mRID" "name" ) ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== POLYMORPHIC WIRE INFO HANDLER =====
+
+cat:WireInfoPolymorphic a cat:CatalogShape ;
+    sh:targetClass cim:WireInfo ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    # Include type information for polymorphism
+    cat:includeType true ;
+    cat:typeProperty "__class__" ;
+    
+    # Base WireInfo properties
+    sh:property [
+        sh:path cim:WireInfo.coreRadius ;
+        cat:outputKey "coreRadius" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.coreStrandCount ;
+        cat:outputKey "coreStrandCount" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.gmr ;
+        cat:outputKey "gmr" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.insulated ;
+        cat:outputKey "insulated" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.insulationMaterial ;
+        cat:outputKey "insulationMaterial" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.insulationThickness ;
+        cat:outputKey "insulationThickness" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.material ;
+        cat:outputKey "material" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.rAC25 ;
+        cat:outputKey "rAC25" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.rAC50 ;
+        cat:outputKey "rAC50" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.rAC75 ;
+        cat:outputKey "rAC75" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.radius ;
+        cat:outputKey "radius" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.ratedCurrent ;
+        cat:outputKey "ratedCurrent" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.rDC20 ;
+        cat:outputKey "rDC20" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.sizeDescription ;
+        cat:outputKey "sizeDescription" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireInfo.strandCount ;
+        cat:outputKey "strandCount" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== OVERHEAD WIRE INFO =====
+
+cat:OverheadWireInfoExport a cat:CatalogShape ;
+    sh:targetClass cim:OverheadWireInfo ;
+    cat:inheritsFrom cat:WireInfoPolymorphic ;
+    
+    # OverheadWireInfo inherits all from WireInfo
+    # Phase data for conductor-centric view
+    sh:property [
+        sh:path cim:WireInfo.ACLineSegmentPhases ;
+        cat:outputKey "ACLineSegmentPhases" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "ACLineSegmentPhaseForWireExport" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== CABLE INFO HIERARCHY =====
+
+cat:CableInfoExport a cat:CatalogShape ;
+    sh:targetClass cim:CableInfo ;
+    cat:inheritsFrom cat:WireInfoPolymorphic ;
+    
+    # CableInfo specific properties
+    sh:property [
+        sh:path cim:CableInfo.constructionKind ;
+        cat:outputKey "constructionKind" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.diameterOverCore ;
+        cat:outputKey "diameterOverCore" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.diameterOverInsulation ;
+        cat:outputKey "diameterOverInsulation" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.diameterOverJacket ;
+        cat:outputKey "diameterOverJacket" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.diameterOverScreen ;
+        cat:outputKey "diameterOverScreen" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.isStrandFill ;
+        cat:outputKey "isStrandFill" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.nominalTemperature ;
+        cat:outputKey "nominalTemperature" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.outerJacketKind ;
+        cat:outputKey "outerJacketKind" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.relativePermittivity ;
+        cat:outputKey "relativePermittivity" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.sheathAsNeutral ;
+        cat:outputKey "sheathAsNeutral" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:CableInfo.shieldMaterial ;
+        cat:outputKey "shieldMaterial" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Phase data for conductor-centric view
+    sh:property [
+        sh:path cim:WireInfo.ACLineSegmentPhases ;
+        cat:outputKey "ACLineSegmentPhases" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "ACLineSegmentPhaseForWireExport" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== TAPE SHIELD CABLE INFO =====
+
+cat:TapeShieldCableInfoExport a cat:CatalogShape ;
+    sh:targetClass cim:TapeShieldCableInfo ;
+    cat:inheritsFrom cat:CableInfoExport ;
+    
+    sh:property [
+        sh:path cim:TapeShieldCableInfo.tapeLap ;
+        cat:outputKey "tapeLap" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:TapeShieldCableInfo.tapeThickness ;
+        cat:outputKey "tapeThickness" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== CONCENTRIC NEUTRAL CABLE INFO =====
+
+cat:ConcentricNeutralCableInfoExport a cat:CatalogShape ;
+    sh:targetClass cim:ConcentricNeutralCableInfo ;
+    cat:inheritsFrom cat:CableInfoExport ;
+    
+    sh:property [
+        sh:path cim:ConcentricNeutralCableInfo.diameterOverNeutral ;
+        cat:outputKey "diameterOverNeutral" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ConcentricNeutralCableInfo.neutralStrandCount ;
+        cat:outputKey "neutralStrandCount" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ConcentricNeutralCableInfo.neutralStrandGmr ;
+        cat:outputKey "neutralStrandGmr" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ConcentricNeutralCableInfo.neutralStrandRadius ;
+        cat:outputKey "neutralStrandRadius" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ConcentricNeutralCableInfo.neutralStrandRDC20 ;
+        cat:outputKey "neutralStrandRDC20" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] .
+
+# ===== WIRE SPACING INFO =====
+
+cat:WireSpacingInfoExport a cat:CatalogShape ;
+    sh:targetClass cim:WireSpacingInfo ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:WireSpacingInfo.isCable ;
+        cat:outputKey "isCable" ;
+        cat:serializeAs "string" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireSpacingInfo.phaseWireCount ;
+        cat:outputKey "phaseWireCount" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireSpacingInfo.phaseWireSpacing ;
+        cat:outputKey "phaseWireSpacing" ;
+        cat:unitHandling "value" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WireSpacingInfo.usage ;
+        cat:outputKey "usage" ;
+        cat:serializeAs "enumString" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Wire positions
+    sh:property [
+        sh:path cim:WireSpacingInfo.WirePositions ;
+        cat:outputKey "WirePosition" ;
+        cat:serializeAs "nestedArray" ;
+        cat:useTemplate "WirePositionExport" ;
+        cat:includeIfNull false ;
+    ] .
+
+cat:WirePositionExport a cat:CatalogShape ;
+    sh:targetClass cim:WirePosition ;
+    cat:inheritsFrom cat:IdentifiedObjectExport ;
+    
+    sh:property [
+        sh:path cim:WirePosition.sequenceNumber ;
+        cat:outputKey "sequenceNumber" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WirePosition.xCoord ;
+        cat:outputKey "xCoord" ;
+        cat:unitHandling "value" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:WirePosition.yCoord ;
+        cat:outputKey "yCoord" ;
+        cat:unitHandling "value" ;
+        cat:required true ;
+    ] .
+
+# ===== PHASE DATA FOR CONDUCTOR-CENTRIC VIEW =====
+# This is used when exporting from WireInfo perspective
+
+cat:ACLineSegmentPhaseForWireExport a cat:CatalogShape ;
+    sh:targetClass cim:ACLineSegmentPhase ;
+    
+    sh:property [
+        sh:path cim:ACLineSegmentPhase.phase ;
+        cat:outputKey "phase" ;
+        cat:serializeAs "enumString" ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:ACDCTerminal.sequenceNumber ;
+        cat:outputKey "sequenceNumber" ;
+        cat:includeIfNull false ;
+    ] ;
+    
+    # Reference back to the line segment (for conductor-centric view)
+    sh:property [
+        sh:path cim:ACLineSegmentPhase.ACLineSegment ;
+        cat:outputKey "ACLineSegment" ;
+        cat:serializeAs "reference" ;
+        cat:referenceFields ( "mRID" "name" ) ;
+        cat:required true ;
+    ] .
+
+# ===== SPECIAL SHAPE FOR LINE SEGMENT REFERENCE =====
+# Used when we just need basic line info
+
+cat:ACLineSegmentReferenceExport a cat:CatalogShape ;
+    sh:targetClass cim:ACLineSegment ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.mRID ;
+        cat:outputKey "mRID" ;
+        cat:serializeAs "string" ;
+        cat:required true ;
+    ] ;
+    
+    sh:property [
+        sh:path cim:IdentifiedObject.name ;
+        cat:outputKey "name" ;
+        cat:includeIfNull false ;
+    ] .
