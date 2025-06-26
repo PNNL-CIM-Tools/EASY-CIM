@@ -22,8 +22,6 @@ def convert_capacitor_equipment(capacitor: gdm.CapacitorEquipment, network: Grap
         gdm_enum.ConnectionType.DELTA: cim.PhaseShuntConnectionKind.D,
         gdm_enum.ConnectionType.OPEN_STAR: cim.PhaseShuntConnectionKind.Y,
         gdm_enum.ConnectionType.OPEN_DELTA: cim.PhaseShuntConnectionKind.D,
-        gdm_enum.ConnectionType.ZIG_ZAG: cim.WindingConnection.Z
-        # TODO: Add cim.PhaseShuntConnectionKind.Z to EAP profile
     }
     if capacitor.connection_type in connection_map:
         shunt_comp.phaseConnection = connection_map[capacitor.connection_type]

@@ -42,6 +42,11 @@ def convert_battery_equipment(battery: gdm.BatteryEquipment, network: GraphModel
     # Note: efficiency values (charging_efficiency, discharging_efficiency, idling_efficiency)
     # would typically be handled through operational curves or additional CIM objects
     
+    #TODO: Add conversion of extension classes
+    #TODO: batteryUnit.chargingEfficiency
+    #TODO: batteryUnit.dischargingEfficiency
+    #TODO: batteryUnit.idlingP
+    
     # Note: voltage_type (line-to-line vs line-to-neutral) might require additional
     # configuration at the connection or terminal level
     
