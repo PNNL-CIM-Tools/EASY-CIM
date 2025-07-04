@@ -1,0 +1,6 @@
+{
+    "catalog": {
+        "@type": "PowerTransformer",
+        "name": "sub"
+    }
+}

@@ -2,8 +2,9 @@ from __future__ import annotations
 import importlib
 import logging
 from cimgraph.models import GraphModel
-from easycim.data_iterator import get_data
-from easycim.reduced_data_profile import ReducedDataProfile
+from cimgraph.databases import get_cim_profile
+from easycim.templates.data_iterator import get_data
+from easycim.templates.reduced_data_profile import ReducedDataProfile
 cim = ReducedDataProfile
 
 _log = logging.getLogger(__name__)
@@ -81,8 +82,7 @@ def get_regulator_data(network: GraphModel) -> dict:
     """
 
     data_profile = ReducedDataProfile()
-    cim_profile = network.connection.connection_params.cim_profile
-    cim = importlib.import_module(f'cimgraph.data_profile.{cim_profile}')
+    cim_profile, cim = get_cim_profile()
     # Run network queries
     network.get_all_edges(cim.TapChanger)
     network.get_all_edges(cim.RatioTapChanger)

@@ -1,0 +1,6 @@
+{
+    "catalog": {
+        "@type": "LinearShuntCompensator",
+        "name": "cap1"
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "catalog": {
+        "@type": "EnergySource",
+        "name": "source"
+    }
+}

@@ -5,15 +5,15 @@ import logging
 
 from cimgraph.models import GraphModel
 
-from easycim.inverter_data import get_inverter_data
-from easycim.line_geometry_data import (get_geometry_data_per_line,
+from easycim.templates.inverter_data import get_inverter_data
+from easycim.templates.line_geometry_data import (get_geometry_data_per_line,
                                         get_line_data_per_geometry)
-from easycim.line_impedance_data import get_impedance_data_per_line
-from easycim.capacitor_data import get_capacitor_data
-from easycim.load_data import get_load_data
-from easycim.reduced_data_profile import ReducedDataProfile
-from easycim.swing_bus_data import get_swing_bus_data
-from easycim.three_phase_transformer_data import \
+from easycim.templates.line_impedance_data import get_impedance_data_per_line
+from easycim.templates.capacitor_data import get_capacitor_data
+from easycim.templates.load_data import get_load_data
+from easycim.templates.reduced_data_profile import ReducedDataProfile
+from easycim.templates.swing_bus_data import get_swing_bus_data
+from easycim.templates.three_phase_transformer_data import \
     get_three_phase_transformer_data
 
 cim = ReducedDataProfile

@@ -3,8 +3,8 @@ import importlib
 import logging
 from cimgraph.models import GraphModel
 from cimgraph.databases import get_cim_profile
-from easycim.data_iterator import get_data
-from easycim.reduced_data_profile import ReducedDataProfile
+from easycim.templates.data_iterator import get_data
+from easycim.templates.reduced_data_profile import ReducedDataProfile
 cim = ReducedDataProfile
 
 _log = logging.getLogger(__name__)
