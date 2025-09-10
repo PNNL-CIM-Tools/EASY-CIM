@@ -3,23 +3,85 @@ from __future__ import annotations
 import importlib
 import logging
 
-from cimgraph import GraphModel
+from cimgraph.models import GraphModel
 
 from easycim.inverter_data import get_inverter_data
 from easycim.line_geometry_data import (get_geometry_data_per_line,
                                         get_line_data_per_geometry)
 from easycim.line_impedance_data import get_impedance_data_per_line
 from easycim.load_data import get_load_data
-from easycim.reduced_data_profile import ReducedDataProfile
 from easycim.swing_bus_data import get_swing_bus_data
 from easycim.three_phase_transformer_data import \
     get_three_phase_transformer_data
+from easycim.cim_graphql_generator import CIMGraphQLGenerator
 
-cim = ReducedDataProfile
 _log = logging.getLogger(__name__)
 
 
-def get_all_data(network: GraphModel, class_name: str) -> dict:
+def get_all_data(network: GraphModel, class_name: str, use_graphql: bool = False) -> dict:
+    """
+    Get all data for a given CIM class. Can use either the legacy hard-coded 
+    approach or the new GraphQL-based approach.
+    
+    :param network: A CIMantic Graphs power system model
+    :type network: GraphModel
+    :param class_name: Name of the CIM class to extract data for
+    :type class_name: str
+    :param use_graphql: Whether to use the new GraphQL-based approach
+    :type use_graphql: bool
+    :return: A dictionary of extracted data
+    :rtype: dict
+    """
+    
+    if use_graphql:
+        return get_all_data_graphql(network, class_name)
+    else:
+        return get_all_data_legacy(network, class_name)
+
+
+def get_all_data_graphql(network: GraphModel, class_name: str) -> dict:
+    """
+    Get all data for a given CIM class using the new GraphQL-based approach.
+    
+    :param network: A CIMantic Graphs power system model
+    :type network: GraphModel
+    :param class_name: Name of the CIM class to extract data for
+    :type class_name: str
+    :return: A dictionary of extracted data
+    :rtype: dict
+    """
+    
+    generator = CIMGraphQLGenerator()
+    
+    # Classes that have GraphQL schemas implemented
+    supported_classes = ['PowerTransformer', 'ACLineSegment', 'EnergyConsumer']
+    
+    if class_name in supported_classes:
+        try:
+            data = generator.generate_cim_data(network, class_name)
+            _log.info(f'Successfully extracted {class_name} data using GraphQL approach')
+            return data
+        except Exception as e:
+            _log.error(f'GraphQL extraction failed for {class_name}: {str(e)}')
+            _log.info(f'Falling back to legacy approach for {class_name}')
+            return get_all_data_legacy(network, class_name)
+    else:
+        _log.info(f'{class_name} not yet supported in GraphQL approach, using legacy method')
+        return get_all_data_legacy(network, class_name)
+
+
+def get_all_data_legacy(network: GraphModel, class_name: str) -> dict:
+    """
+    Get all data for a given CIM class using the legacy hard-coded approach.
+    This maintains backward compatibility with existing code.
+    
+    :param network: A CIMantic Graphs power system model
+    :type network: GraphModel
+    :param class_name: Name of the CIM class to extract data for
+    :type class_name: str
+    :return: A dictionary of extracted data
+    :rtype: dict
+    """
 
     if class_name == 'ACLineSegment':
         impedance_data = get_impedance_data_per_line(network)

@@ -3,11 +3,12 @@ from __future__ import annotations
 import importlib
 import logging
 
-from cimgraph import GraphModel
+from cimgraph.models import GraphModel
+from cimgraph.databases import get_cim_profile
 
 from easycim.data_iterator import get_data
 from easycim.reduced_data_profile import ReducedDataProfile
-from easycim.templates import line_impedance_template
+# from easycim.templates import line_impedance_template
 
 _log = logging.getLogger(__name__)
 
@@ -25,8 +26,8 @@ def get_impedance_data_per_line(network: GraphModel,
     :rtype: dict
     """
     data_profile = ReducedDataProfile()
-    cim_profile = network.connection.connection_params.cim_profile
-    cim = importlib.import_module(f'cimgraph.data_profile.{cim_profile}')
+    cim_profile, cim_module = get_cim_profile()
+    cim = cim_module
 
     try:
         # Use cached result in CIM-Graph network, if available
