@@ -1,6 +1,6 @@
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v5.0.0
+  rev: v6.0.0
   hooks:
   - id: check-yaml
   - id: double-quote-string-fixer
@@ -14,7 +14,7 @@ repos:
   - id: no-commit-to-branch  # blocks main commits.  To bypass do git commit --allow-empty
 
 - repo: https://github.com/google/yapf
-  rev: v0.40.2  # Use the sha / tag you want to point at
+  rev: v0.43.0  # Use the sha / tag you want to point at
   hooks:
   - id: yapf
     name: yapf
@@ -24,7 +24,7 @@ repos:
     types: [ python ]
 
 - repo: https://github.com/PyCQA/isort
-  rev: 5.13.2
+  rev: 9.0.1
   hooks:
   - id: isort
     name: isort
